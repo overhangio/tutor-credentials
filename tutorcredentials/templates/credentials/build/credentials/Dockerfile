@@ -51,8 +51,8 @@ COPY --chown=app:app assets.py ./credentials/settings/assets.py
 ENV DJANGO_SETTINGS_MODULE credentials.settings.assets
 #RUN python3 manage.py update_assets --skip-collect
 #RUN ./node_modules/.bin/r.js -o build.js
-RUN python3 manage.py collectstatic --noinput
-RUN python3 manage.py compress --force
+#RUN python3 manage.py collectstatic --noinput
+#RUN python3 manage.py compress --force
 
 # Setup minimal yml config file, which is required by production settings
 RUN echo "{}" > /openedx/config.yml

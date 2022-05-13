@@ -19,15 +19,10 @@ ENV PATH /openedx/nodeenv/bin:${PATH}
 
 # Install credentials
 ARG CREDENTIALS_REPOSITORY=https://github.com/edx/credentials.git
-#ARG CREDENTIALS_VERSION={{ OPENEDX_COMMON_VERSION }}
 ARG CREDENTIALS_VERSION="open-release/maple.master"
 RUN mkdir -p /openedx/credentials && \
     git clone $CREDENTIALS_REPOSITORY --branch $CREDENTIALS_VERSION --depth 1 /openedx/credentials
 WORKDIR /openedx/credentials
-
-# Identify tutor user to cherry-pick commits
-RUN git config --global user.email "tutor@overhang.io" \
-  && git config --global user.name "Tutor"
 
 # nodejs requirements (aka: "make requirements.js")
 ARG NPM_REGISTRY=https://registry.npmjs.org/
@@ -45,14 +40,6 @@ RUN cd /openedx/requirements/ \
 
 {% for extra_requirement in CREDENTIALS_EXTRA_PIP_REQUIREMENTS %}RUN pip install {{ extra_requirement }}
 {% endfor %}
-
-# Collect static assets (aka: "make static")
-COPY --chown=app:app assets.py ./credentials/settings/assets.py
-ENV DJANGO_SETTINGS_MODULE credentials.settings.assets
-#RUN python3 manage.py update_assets --skip-collect
-#RUN ./node_modules/.bin/r.js -o build.js
-#RUN python3 manage.py collectstatic --noinput
-#RUN python3 manage.py compress --force
 
 # Setup minimal yml config file, which is required by production settings
 RUN echo "{}" > /openedx/config.yml

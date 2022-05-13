@@ -1,7 +1,7 @@
 import json
 import logging.config
 
-from .utils import get_logger_config
+from credentials.settings.utils import get_logger_config
 
 SECRET_KEY = "{{ OPENEDX_SECRET_KEY }}"
 ALLOWED_HOSTS = [
@@ -73,20 +73,20 @@ ENTERPRISE_SERVICE_URL = '{% if ENABLE_HTTPS %}https{% else %}http{% endif %}://
 ENTERPRISE_API_URL = urljoin(ENTERPRISE_SERVICE_URL, 'api/v1/')
 
 # Logging: get rid of local handler
-logging_config = get_logger_config(
+LOGGING = get_logger_config(
     log_dir="/var/log",
     edx_filename="credentials.log",
     dev_env=True,
     debug=False,
     local_loglevel="INFO",
 )
-logging_config["handlers"].pop("local")
-for logger in logging_config["loggers"].values():
+LOGGING["handlers"].pop("local")
+for logger in LOGGING["loggers"].values():
     try:
         logger["handlers"].remove("local")
     except ValueError:
         continue
-logging.config.dictConfig(logging_config)
+logging.config.dictConfig(LOGGING)
 
 
 {{ patch("credentials-settings-common") }}

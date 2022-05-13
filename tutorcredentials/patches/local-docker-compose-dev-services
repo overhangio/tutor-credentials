@@ -1,0 +1,15 @@
+credentials:
+  environment:
+    DJANGO_SETTINGS_MODULE: credentials.settings.tutor.development
+  command: ./manage.py runserver 0.0.0.0:8150
+  ports:
+    - "127.0.0.1:8150:8150"
+  stdin_open: true
+  tty: true
+  volumes:
+    # editable requirements
+    - ../plugins/credentials/build/credentials/requirements:/openedx/requirements
+  networks:
+    default:
+      aliases:
+        - "{{ CREDENTIALS_HOST }}"

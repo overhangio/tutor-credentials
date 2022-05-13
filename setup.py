@@ -31,10 +31,12 @@ setup(
     project_urls={
         "Code": "https://github.com/lpm0073/tutor-contrib-credentials",
         "Issue tracker": "https://github.com/lpm0073/tutor-contrib-credentials/issues",
+        "Community": "https://discuss.overhang.io",
     },
     license="AGPLv3",
     author="Lawrence McDaniel",
-    description="credentials plugin for Tutor",
+    author_email="lpm0073@gmail.com",
+    description="A Tutor plugin for Open edX Credentials service",
     long_description=load_readme(),
     packages=find_packages(exclude=["tests*"]),
     include_package_data=True,

@@ -1,0 +1,3 @@
+- name: credentials-settings
+  files:
+    - plugins/credentials/apps/credentials/settings/production.py

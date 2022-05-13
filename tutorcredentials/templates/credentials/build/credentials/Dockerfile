@@ -1,5 +1,11 @@
 FROM docker.io/ubuntu:20.04
 
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US:en
+ENV LC_ALL en_US.UTF-8
+ENV DJANGO_SETTINGS_MODULE credentials.settings.production
+
+
 RUN apt update && \
   apt install -y curl git-core language-pack-en libmysqlclient-dev libssl-dev python3 python3-pip python3-venv
 
@@ -11,12 +17,6 @@ USER ${APP_USER_ID}
 RUN python3 -m venv /openedx/venv/
 ENV PATH "/openedx/venv/bin:$PATH"
 RUN pip install setuptools==44.1.0 pip==20.3.4
-
-RUN locale-gen en_US.UTF-8
-ENV LANG en_US.UTF-8
-ENV LANGUAGE en_US:en
-ENV LC_ALL en_US.UTF-8
-ENV DJANGO_SETTINGS_MODULE credentials.settings.production
 
 
 # Install credentials

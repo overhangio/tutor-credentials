@@ -15,12 +15,12 @@ RUN pip install setuptools==44.1.0 pip==20.3.4
 # Create Node environment
 RUN pip install nodeenv
 ENV NODE_ENV=/openedx/nodeenv
-RUN nodeenv $NODE_ENV --node=16.14.0 --prebuilt
+RUN nodeenv $NODE_ENV --node=16.12.1 --prebuilt
 ENV PATH="$NODE_ENV/bin:$PATH"
 
 # nodejs requirements (aka: "make requirements.js")
 ARG NPM_REGISTRY=https://registry.npmjs.org/
-RUN npm install -g npm@8.5.3 --verbose --registry=$NPM_REGIST RY
+RUN npm install -g npm@6.12.1 --verbose --registry=$NPM_REGISTRY
 
 RUN locale-gen en_US.UTF-8
 ENV LANG en_US.UTF-8

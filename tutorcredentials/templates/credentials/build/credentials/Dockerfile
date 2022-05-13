@@ -10,12 +10,25 @@ USER ${APP_USER_ID}
 # Create python venv
 RUN python3 -m venv /openedx/venv/
 ENV PATH "/openedx/venv/bin:$PATH"
-RUN pip install setuptools==44.1.0 pip==20.3.4 wheel==0.37.0
+RUN pip install -r requirements/pip_tools.txt
+RUN pip install setuptools==44.1.0 pip==20.3.4
 
-# Install a recent version of nodejs
+# Create Node environment
 RUN pip install nodeenv
-RUN nodeenv /openedx/nodeenv --node=12.13.0 --prebuilt
-ENV PATH /openedx/nodeenv/bin:${PATH}
+ENV NOVE_ENV=/openedx/nodeenv
+RUN nodeenv $NODE_ENV --node=16.14.0 --prebuilt
+ENV PATH="$NODE_ENV/bin:$PATH"
+
+# nodejs requirements (aka: "make requirements.js")
+ARG NPM_REGISTRY=https://registry.npmjs.org/
+RUN npm install -g npm@8.5.3 --verbose --registry=$NPM_REGIST RY
+
+RUN locale-gen en_US.UTF-8
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US:en
+ENV LC_ALL en_US.UTF-8
+ENV DJANGO_SETTINGS_MODULE credentials.settings.production
+
 
 # Install credentials
 ARG CREDENTIALS_REPOSITORY=https://github.com/edx/credentials.git
@@ -24,9 +37,6 @@ RUN mkdir -p /openedx/credentials && \
     git clone $CREDENTIALS_REPOSITORY --branch $CREDENTIALS_VERSION --depth 1 /openedx/credentials
 WORKDIR /openedx/credentials
 
-# nodejs requirements (aka: "make requirements.js")
-ARG NPM_REGISTRY=https://registry.npmjs.org/
-RUN npm install --verbose --registry=$NPM_REGISTRY
 
 # python requirements
 RUN pip install -r requirements.txt

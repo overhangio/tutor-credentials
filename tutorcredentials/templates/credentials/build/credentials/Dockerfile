@@ -10,7 +10,6 @@ USER ${APP_USER_ID}
 # Create python venv
 RUN python3 -m venv /openedx/venv/
 ENV PATH "/openedx/venv/bin:$PATH"
-RUN pip install -r requirements/pip_tools.txt
 RUN pip install setuptools==44.1.0 pip==20.3.4
 
 # Create Node environment
@@ -39,6 +38,7 @@ WORKDIR /openedx/credentials
 
 
 # python requirements
+RUN pip install -r requirements/pip_tools.txt
 RUN pip install -r requirements.txt
 RUN pip install uwsgi==2.0.19.1
 

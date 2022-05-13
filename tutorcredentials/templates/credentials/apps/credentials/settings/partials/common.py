@@ -10,9 +10,6 @@ PROTOCOL = "{% if ENABLE_HTTPS %}https{% else %}http{% endif %}"
 
 CORS_ALLOW_CREDENTIALS = True
 
-OSCAR_DEFAULT_CURRENCY = "{{ CREDENTIALS_CURRENCY }}"
-
-EDX_API_KEY = "{{ CREDENTIALS_API_KEY }}"
 {% set jwt_rsa_key = rsa_import_key(JWT_RSA_PRIVATE_KEY) %}
 JWT_AUTH["JWT_ISSUER"] = "{{ JWT_COMMON_ISSUER }}"
 JWT_AUTH["JWT_AUDIENCE"] = "{{ JWT_COMMON_AUDIENCE }}"

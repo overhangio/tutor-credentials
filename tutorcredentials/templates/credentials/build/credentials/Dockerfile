@@ -36,7 +36,7 @@ RUN pip install uwsgi==2.0.19.1
 ARG NPM_REGISTRY=https://registry.npmjs.org/
 ENV NODE_ENV /openedx/nodeenv
 ENV PATH $NODE_ENV/bin:$PATH
-RUN nodeenv $NODE_ENV --node=16.12.1 --prebuilt
+RUN nodeenv $NODE_ENV --node=12.13.0 --prebuilt
 RUN npm install -g npm@6.12.1 --verbose --registry=$NPM_REGISTRY
 
 

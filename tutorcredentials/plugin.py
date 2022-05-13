@@ -13,7 +13,7 @@ config = {
     "defaults": {
         "VERSION": __version__,
         "API_TIMEOUT": 5,
-        "CURRENCY": "USD",
+        "SECRET_KEY": "CHANGE-ME",
         "DOCKER_IMAGE": "{{ DOCKER_REGISTRY }}lpm0073/openedx-credentials:{{ CREDENTIALS_VERSION }}",
         "EXTRA_PIP_REQUIREMENTS": [],
         "HOST": "credentials.{{ LMS_HOST }}",

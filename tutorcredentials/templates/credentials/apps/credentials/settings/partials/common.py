@@ -1,6 +1,6 @@
 import json
 
-SECRET_KEY = "{{ CREDENTIALS_SECRET_KEY }}"
+SECRET_KEY = "{{ OPENEDX_SECRET_KEY }}"
 ALLOWED_HOSTS = [
     "{{ CREDENTIALS_HOST }}",
     "credentials",

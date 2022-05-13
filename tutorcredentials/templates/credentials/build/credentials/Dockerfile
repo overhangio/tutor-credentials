@@ -14,7 +14,7 @@ RUN pip install setuptools==44.1.0 pip==20.3.4
 
 # Create Node environment
 RUN pip install nodeenv
-ENV NOVE_ENV=/openedx/nodeenv
+ENV NODE_ENV=/openedx/nodeenv
 RUN nodeenv $NODE_ENV --node=16.14.0 --prebuilt
 ENV PATH="$NODE_ENV/bin:$PATH"
 

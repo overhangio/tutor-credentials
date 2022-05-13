@@ -12,16 +12,6 @@ RUN python3 -m venv /openedx/venv/
 ENV PATH "/openedx/venv/bin:$PATH"
 RUN pip install setuptools==44.1.0 pip==20.3.4
 
-# Create Node environment
-RUN pip install nodeenv
-ENV NODE_ENV=/openedx/nodeenv
-RUN nodeenv $NODE_ENV --node=16.12.1 --prebuilt
-ENV PATH="$NODE_ENV/bin:$PATH"
-
-# nodejs requirements (aka: "make requirements.js")
-ARG NPM_REGISTRY=https://registry.npmjs.org/
-RUN npm install -g npm@6.12.1 --verbose --registry=$NPM_REGISTRY
-
 RUN locale-gen en_US.UTF-8
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
@@ -41,6 +31,14 @@ WORKDIR /openedx/credentials
 RUN pip install -r requirements/pip_tools.txt
 RUN pip install -r requirements.txt
 RUN pip install uwsgi==2.0.19.1
+
+# Create Node environment
+ARG NPM_REGISTRY=https://registry.npmjs.org/
+ENV NODE_ENV /openedx/nodeenv
+ENV PATH $NODE_ENV/bin:$PATH
+RUN nodeenv $NODE_ENV --node=16.12.1 --prebuilt
+RUN npm install -g npm@6.12.1 --verbose --registry=$NPM_REGISTRY
+
 
 # Install private requirements
 COPY --chown=app:app ./requirements/ /openedx/requirements

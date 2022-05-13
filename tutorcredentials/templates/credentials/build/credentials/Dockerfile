@@ -19,7 +19,8 @@ ENV PATH /openedx/nodeenv/bin:${PATH}
 
 # Install credentials
 ARG CREDENTIALS_REPOSITORY=https://github.com/edx/credentials.git
-ARG CREDENTIALS_VERSION={{ OPENEDX_COMMON_VERSION }}
+#ARG CREDENTIALS_VERSION={{ OPENEDX_COMMON_VERSION }}
+ARG CREDENTIALS_VERSION="open-release/maple.master"
 RUN mkdir -p /openedx/credentials && \
     git clone $CREDENTIALS_REPOSITORY --branch $CREDENTIALS_VERSION --depth 1 /openedx/credentials
 WORKDIR /openedx/credentials
@@ -31,7 +32,6 @@ RUN git config --global user.email "tutor@overhang.io" \
 # nodejs requirements (aka: "make requirements.js")
 ARG NPM_REGISTRY=https://registry.npmjs.org/
 RUN npm install --verbose --registry=$NPM_REGISTRY
-RUN ./node_modules/.bin/bower install --allow-root
 
 # python requirements
 RUN pip install -r requirements.txt

@@ -18,6 +18,7 @@ config = {
         "DOCKER_IMAGE": "{{ DOCKER_REGISTRY }}lpm0073/openedx-credentials:{{ CREDENTIALS_VERSION }}",
         "EXTRA_PIP_REQUIREMENTS": [],
         "HOST": "credentials.{{ LMS_HOST }}",
+        "MFE_HOST": "apps.{{ LMS_HOST }}",
         "MYSQL_DATABASE": "credentials",
         "MYSQL_USERNAME": "credentials",
         "MYSQL_PASSWORD": "{{ 8|random_string }}",

@@ -1,3 +1,5 @@
+.vscode/
+
 .*.swp
 !.gitignore
 TODO

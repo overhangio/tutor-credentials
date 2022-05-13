@@ -12,6 +12,7 @@ config = {
     # Add here your new settings
     "defaults": {
         "VERSION": __version__,
+        "API_KEY": "{{ 20|random_string }}",
         "API_TIMEOUT": 5,
         "SECRET_KEY": "CHANGE-ME",
         "DOCKER_IMAGE": "{{ DOCKER_REGISTRY }}lpm0073/openedx-credentials:{{ CREDENTIALS_VERSION }}",
@@ -19,10 +20,16 @@ config = {
         "HOST": "credentials.{{ LMS_HOST }}",
         "MYSQL_DATABASE": "credentials",
         "MYSQL_USERNAME": "credentials",
+        "MYSQL_PASSWORD": "{{ 8|random_string }}",
         "OAUTH2_KEY": "credentials",
         "OAUTH2_KEY_DEV": "credentials-dev",
         "OAUTH2_KEY_SSO": "credentials-sso",
         "OAUTH2_KEY_SSO_DEV": "credentials-sso-dev",
+        "OAUTH2_SECRET": "{{ 8|random_string }}",
+        "OAUTH2_SECRET_DEV": "{{ 8|random_string }}",
+        "OAUTH2_SECRET_SSO": "{{ 8|random_string }}",
+        "OAUTH2_SECRET_SSO_DEV": "{{ 8|random_string }}",
+        "SECRET_KEY": "{{ 20|random_string }}",
     },
     # Add here settings that don't have a reasonable default for all users. For
     # instance: passwords, secret keys, etc.

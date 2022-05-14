@@ -4,7 +4,7 @@ from credentials.settings.utils import get_logger_config
 LOGGING = get_logger_config(debug=False, dev_env=True, local_loglevel="INFO")
 LOGGING["handlers"].pop("local")
 for logger in LOGGING["loggers"].values():
-    logger["handlers"].remove("local")
-
+    if "local" in logger["handlers"]:
+        logger["handlers"].remove("local")
 
 {{ patch("credentials-settings-common") }}

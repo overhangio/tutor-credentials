@@ -41,6 +41,7 @@ Configuration
 
 Application configuration
 ~~~~~~~~~~~~~~~~~~~~~~~~~
+
 - ``CREDENTIALS_HOST`` (default: ``"credentials.{{ LMS_HOST }}"``)
 - ``CREDENTIALS_LMS_HOST``  (default: ``"myopenedxsite.com"``)
 - ``CREDENTIALS_LMS_URL_ROOT`` (default: ``"http://{{ CREDENTIALS_LMS_HOST }}"``)
@@ -58,6 +59,7 @@ Application configuration
 
 Marketing & Theming
 ~~~~~~~~~~~~~~~~~~~
+
 - ``CREDENTIALS_LOGO_TRADEMARK_URL`` (default: ``"https://edx-cdn.org/v3/default/logo-trademark.svg"``)
 - ``CREDENTIALS_LOGO_TRADEMARK_URL_PNG`` (default: ``"https://edx-cdn.org/v3/default/logo-trademark.png"``)
 - ``CREDENTIALS_LOGO_TRADEMARK_URL_SVG`` (default: ``"https://edx-cdn.org/v3/default/logo-trademark.svg"``)
@@ -72,11 +74,16 @@ Marketing & Theming
 
 Back end authentication
 ~~~~~~~~~~~~~~~~~~~~~~~
+
 - ``CREDENTIALS_BACKEND_SERVICE_EDX_OAUTH2_KEY`` (default: ``"credentials-backend-service-key"``)
 - ``CREDENTIALS_BACKEND_SERVICE_EDX_OAUTH2_SECRET`` (default: ``"{{ CREDENTIALS_OAUTH2_SECRET }}"``)
 - ``CREDENTIALS_BACKEND_SERVICE_EDX_OAUTH2_PROVIDER_URL`` (default: ``"http://lms:8000/oauth2"``)
 - ``CREDENTIALS_OAUTH2_KEY``  (default: ``credentials-backend-service-key"``)
 - ``CREDENTIALS_OAUTH2_SECRET`` (default: ``"CHANGE-ME"``)
+
+Application Third party authentication
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 - ``CREDENTIALS_SOCIAL_AUTH_REDIRECT_IS_HTTPS`` (default: ``{% if ENABLE_HTTPS %}True{% else %}False{% endif %}``)
 - ``CREDENTIALS_SOCIAL_AUTH_EDX_OAUTH2_ISSUER`` (default: ``"{% if ENABLE_HTTPS %}https{% else %}http{% endif %}://{{ LMS_HOST }}"``)
 - ``CREDENTIALS_SOCIAL_AUTH_EDX_OAUTH2_URL_ROOT`` (default: ``"http://lms:8000"``)

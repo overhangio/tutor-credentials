@@ -90,7 +90,7 @@ Operations
 Using Django Admin
 ~~~~~~~~~~~~~~~~~~
 
-The credentials user interface will be available at http://credentials.local.overhang.io for a local instance, and at ``CREDENTIALS_HOST`` (by  default: ``http(s)://credentials.<yours lms host>``) in production. In order to run commands from the UI login with an admin user at: http://credentials.local.overhang.io/admin/
+The credentials user interface will be available at http://credentials.local.overhang.io for a local instance, and at ``CREDENTIALS_HOST`` (by  default: ``http(s)://credentials.<your lms host>``) in production. In order to run commands from the UI login with an admin user at: http://credentials.local.overhang.io/admin/
 
 Funding
 -------

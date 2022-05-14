@@ -12,13 +12,11 @@ config = {
     # Add here your new settings
     "defaults": {
         "VERSION": __version__,
-        "SECRET_KEY": "CHANGE-ME",
         "DOCKER_IMAGE": "{{ DOCKER_REGISTRY }}lpm0073/openedx-credentials:{{ CREDENTIALS_VERSION }}",
         "EXTRA_PIP_REQUIREMENTS": [],
         "HOST": "credentials.{{ LMS_HOST }}",
         "MYSQL_DATABASE": "credentials",
         "MYSQL_USERNAME": "credentials",
-        "MYSQL_PASSWORD": "{{ 8|random_string }}",
         "LOGO_TRADEMARK_URL": "https://edx-cdn.org/v3/default/logo-trademark.svg",
         "LOGO_TRADEMARK_URL_PNG": "https://edx-cdn.org/v3/default/logo-trademark.png",
         "LOGO_TRADEMARK_URL_SVG": "https://edx-cdn.org/v3/default/logo-trademark.svg",
@@ -30,21 +28,22 @@ config = {
         "LOGO_WHITE_URL_SVG": "https://edx-cdn.org/v3/default/logo-white.svg",
         "FAVICON_URL": "https://edx-cdn.org/v3/default/favicon.ico",
         "OAUTH2_KEY": "credentials-backend-service-key",
-        "OAUTH2_SECRET": "CHANGE-ME",
         "SOCIAL_AUTH_REDIRECT_IS_HTTPS": False,
         "SOCIAL_AUTH_EDX_OAUTH2_ISSUER": "https://{{ LMS_HOST }}",
         "SOCIAL_AUTH_EDX_OAUTH2_URL_ROOT": "http://lms:8000",
         "SOCIAL_AUTH_EDX_OAUTH2_KEY": "credentials-sso-key",
-        "SOCIAL_AUTH_EDX_OAUTH2_SECRET": "credentials-sso-secret",
         "SOCIAL_AUTH_EDX_OAUTH2_LOGOUT_URL": "{{ LMS_HOST }}/logout",
         "BACKEND_SERVICE_EDX_OAUTH2_KEY": "{{ CREDENTIALS_OAUTH2_KEY }}",
-        "BACKEND_SERVICE_EDX_OAUTH2_SECRET": "{{ CREDENTIALS_OAUTH2_SECRET }}",
         "BACKEND_SERVICE_EDX_OAUTH2_PROVIDER_URL": "http://lms:8000/oauth2"
     },
     # Add here settings that don't have a reasonable default for all users. For
     # instance: passwords, secret keys, etc.
     "unique": {
-        # "SECRET_KEY": "\{\{ 24|random_string \}\}",
+        "MYSQL_PASSWORD": "{{ 8|random_string }}",
+        "OAUTH2_SECRET": "{{ 16|random_string }}",
+        "SECRET_KEY": "{{ 24|random_string }}",
+        "SOCIAL_AUTH_EDX_OAUTH2_SECRET": "{{ 16|random_string }}",
+        "BACKEND_SERVICE_EDX_OAUTH2_SECRET": "{{ 16|random_string }}",
     },
     # Danger zone! Add here values to override settings from Tutor core or other plugins.
     "overrides": {

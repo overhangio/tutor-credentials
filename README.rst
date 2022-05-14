@@ -20,6 +20,7 @@ Configuration
 - ``CREDENTIALS_FAVICON_URL`` (default: ``"https://edx-cdn.org/v3/default/favicon.ico"``)
 - ``CREDENTIALS_HOST`` (default: ``"credentials.{{ LMS_HOST }}"``)
 - ``CREDENTIALS_LMS_URL_ROOT`` (default: ``"{{ LMS_HOST }}"``)
+- ``CREDENTIALS_LMS_URL``  (default: ``"{{ LMS_HOST }}"``)
 - ``CREDENTIALS_LOGO_TRADEMARK_URL`` (default: ``"https://edx-cdn.org/v3/default/logo-trademark.svg"``)
 - ``CREDENTIALS_LOGO_TRADEMARK_URL_PNG`` (default: ``"https://edx-cdn.org/v3/default/logo-trademark.png"``)
 - ``CREDENTIALS_LOGO_TRADEMARK_URL_SVG`` (default: ``"https://edx-cdn.org/v3/default/logo-trademark.svg"``)

@@ -2,7 +2,7 @@ credentials plugin for `Tutor <https://docs.tutor.overhang.io>`__
 ===================================================================================
 
 This is a plugin for `Tutor <https://docs.tutor.overhang.io>`_ that integrates the `Credentials <https://github.com/openedx/certificates/>`__ application in an Open edX platform.
-This plugin also syncs the credentials database core_user table to openedx.auth_user, so after installing you should be able to authentication with the same credentials that you use for your lms.
+This plugin also syncs the credentials database core_user table to openedx.auth_user, so after installing you should be able to authenticate with the same credentials that you use for your lms.
 
 Installation
 ------------
@@ -13,25 +13,17 @@ Installation
 
 This plugin requires tutor>=12.0.0, the `Discovery plugin <https://github.com/overhangio/tutor-discovery>`__ and the `MFE plugin <https://github.com/overhangio/tutor-mfe>`__. If you have installed Tutor by downloading the pre-compiled binary, then both plugins should be automatically installed. You can confirm by running::
 
-::
-
     tutor plugins list
 
 Then, in any case you need to enable the plugins::
-
-::
 
     tutor plugins enable discovery mfe credentials
 
 Services will have to be re-configured and restarted, so you are probably better off just running quickstart again::
 
-::
-
     tutor local quickstart
 
 Note that this plugins is compatible with `Kubernetes integration <http://docs.tutor.overhang.io/k8s.html>`__. When deploying to a Kubernetes cluster run instead, noting that you'll need to create a public remote repository (ie AWS ECR)::
-
-::
 
     tutor plugins enable discovery mfe credentials
     tutor config save --set CREDENTIALS_DOCKER_IMAGE=URI_OF_YOUR_REPOSITORY

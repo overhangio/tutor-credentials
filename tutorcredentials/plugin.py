@@ -40,6 +40,7 @@ config = {
         "SOCIAL_AUTH_EDX_OAUTH2_KEY": "credentials-sso-key",
         "SOCIAL_AUTH_EDX_OAUTH2_LOGOUT_URL": "{{ CREDENTIALS_LMS_HOST }}/logout",
         "VERSION": __version__,
+        "THEME_NAME": "edx-theme",
         "TOS_URL": "{{ CREDENTIALS_LMS_HOST }}/tos",
     },
     # Add here settings that don't have a reasonable default for all users. For

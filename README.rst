@@ -45,6 +45,7 @@ Configuration
 - ``CREDENTIALS_SOCIAL_AUTH_EDX_OAUTH2_KEY`` (default: ``"credentials-sso-key"``)
 - ``CREDENTIALS_SOCIAL_AUTH_EDX_OAUTH2_SECRET`` (default: ``"credentials-sso-secret"``)
 - ``CREDENTIALS_SOCIAL_AUTH_EDX_OAUTH2_LOGOUT_URL`` (default: ``"{{ SOCIAL_AUTH_EDX_OAUTH2_ISSUER }}/logout"``)
+- ``CREDENTIALS_THEME_NAME`` (default: ``"edx-theme"``)
 - ``CREDENTIALS_TOS_URL`` (default: ``"{{ LMS_HOST }}/tos"``)
 
 

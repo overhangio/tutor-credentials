@@ -11,13 +11,10 @@ Installation
 Configuration
 -------------
 
-- ``CREDENTIALS_API_KEY`` (default: ``"{{ 20|random_string }}"``)
-- ``CREDENTIALS_API_TIMEOUT`` (default: ``5``)
-- ``CREDENTIALS_SECRET_KEY`` (default: ``"CHANGE-ME"``)
 - ``CREDENTIALS_DOCKER_IMAGE`` (default: ``"{{ DOCKER_REGISTRY }}lpm0073/openedx-credentials:{{ CREDENTIALS_VERSION }}"``)
+- ``CREDENTIALS_SECRET_KEY`` (default: ``"CHANGE-ME"``)
 - ``CREDENTIALS_EXTRA_PIP_REQUIREMENTS`` (default: ``[]``)
 - ``CREDENTIALS_HOST`` (default: ``"credentials.{{ LMS_HOST }}"``)
-- ``CREDENTIALS_MFE_HOST`` (default: ``"apps.{{ LMS_HOST }}"``)
 - ``CREDENTIALS_MYSQL_DATABASE`` (default: ``"credentials"``)
 - ``CREDENTIALS_MYSQL_USERNAME`` (default: ``"credentials"``)
 - ``CREDENTIALS_MYSQL_PASSWORD`` (default: ``"{{ 8|random_string }}"``)

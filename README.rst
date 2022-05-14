@@ -21,15 +21,26 @@ Configuration
 - ``CREDENTIALS_MYSQL_DATABASE`` (default: ``"credentials"``)
 - ``CREDENTIALS_MYSQL_USERNAME`` (default: ``"credentials"``)
 - ``CREDENTIALS_MYSQL_PASSWORD`` (default: ``"{{ 8|random_string }}"``)
-- ``CREDENTIALS_OAUTH2_KEY`` (default: ``"credentials"``)
-- ``CREDENTIALS_OAUTH2_KEY_DEV`` (default: ``"credentials-dev"``)
-- ``CREDENTIALS_OAUTH2_KEY_SSO`` (default: ``"credentials-sso"``)
-- ``CREDENTIALS_OAUTH2_KEY_SSO_DEV`` (default: ``"credentials-sso-dev"``)
-- ``CREDENTIALS_OAUTH2_SECRET`` (default: ``"{{ 8|random_string }}"``)
-- ``CREDENTIALS_OAUTH2_SECRET_DEV`` (default: ``"{{ 8|random_string }}"``)
-- ``CREDENTIALS_OAUTH2_SECRET_SSO`` (default: ``"{{ 8|random_string }}"``)
-- ``CREDENTIALS_OAUTH2_SECRET_SSO_DEV`` (default: ``"{{ 8|random_string }}"``)
-- ``CREDENTIALS_SECRET_KEY`` (default: ``"{{ 20|random_string }}"``)
+- ``CREDENTIALS_LOGO_TRADEMARK_URL`` (default: ``"https://edx-cdn.org/v3/default/logo-trademark.svg"``)
+- ``CREDENTIALS_LOGO_TRADEMARK_URL_PNG`` (default: ``"https://edx-cdn.org/v3/default/logo-trademark.png"``)
+- ``CREDENTIALS_LOGO_TRADEMARK_URL_SVG`` (default: ``"https://edx-cdn.org/v3/default/logo-trademark.svg"``)
+- ``CREDENTIALS_LOGO_URL`` (default: ``"https://edx-cdn.org/v3/default/logo.svg"``)
+- ``CREDENTIALS_LOGO_URL_PNG`` (default: ``"https://edx-cdn.org/v3/default/logo.png"``)
+- ``CREDENTIALS_LOGO_URL_SVG`` (default: ``"https://edx-cdn.org/v3/default/logo.svg"``)
+- ``CREDENTIALS_LOGO_WHITE_URL`` (default: ``"https://edx-cdn.org/v3/default/logo-white.svg"``)
+- ``CREDENTIALS_LOGO_WHITE_URL_PNG`` (default: ``"https://edx-cdn.org/v3/default/logo-white.png"``)
+- ``CREDENTIALS_LOGO_WHITE_URL_SVG`` (default: ``"https://edx-cdn.org/v3/default/logo-white.svg"``)
+- ``CREDENTIALS_FAVICON_URL`` (default: ``"https://edx-cdn.org/v3/default/favicon.ico"``)
+- ``CREDENTIALS_SOCIAL_AUTH_REDIRECT_IS_HTTPS`` (default: ``{% if ENABLE_HTTPS %}True{% else %}False{% endif %}``)
+- ``CREDENTIALS_SOCIAL_AUTH_EDX_OAUTH2_ISSUER`` (default: ``"{% if ENABLE_HTTPS %}https{% else %}http{% endif %}://{{ LMS_HOST }}"``)
+- ``CREDENTIALS_SOCIAL_AUTH_EDX_OAUTH2_URL_ROOT`` (default: ``"http://lms:8000"``)
+- ``CREDENTIALS_SOCIAL_AUTH_EDX_OAUTH2_KEY`` (default: ``"credentials-sso-key"``)
+- ``CREDENTIALS_SOCIAL_AUTH_EDX_OAUTH2_SECRET`` (default: ``"credentials-sso-secret"``)
+- ``CREDENTIALS_SOCIAL_AUTH_EDX_OAUTH2_LOGOUT_URL`` (default: ``"{{ SOCIAL_AUTH_EDX_OAUTH2_ISSUER }}/logout"``)
+- ``CREDENTIALS_BACKEND_SERVICE_EDX_OAUTH2_KEY`` (default: ``"credentials-backend-service-key"``)
+- ``CREDENTIALS_BACKEND_SERVICE_EDX_OAUTH2_SECRET`` (default: ``"{{ CREDENTIALS_OAUTH2_SECRET }}"``)
+- ``CREDENTIALS_BACKEND_SERVICE_EDX_OAUTH2_PROVIDER_URL`` (default: ``"http://lms:8000/oauth2"``)
+
 
 
 Usage
@@ -37,6 +48,12 @@ Usage
 
 ::
 
+    # tutor local
+    tutor plugins enable credentials
+
+    # tutor on k8s
+    # you'll need to create a public remote repository (ie AWS ECR)
+    # ---------------------------------------------------------------------
     tutor plugins enable credentials
     tutor config save --set CREDENTIALS_DOCKER_IMAGE=URI_OF_YOUR_REPOSITORY
     tutor images build credentials

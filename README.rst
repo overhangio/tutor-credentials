@@ -84,7 +84,22 @@ Back end authentication
 - ``CREDENTIALS_SOCIAL_AUTH_EDX_OAUTH2_SECRET`` (default: ``"credentials-sso-secret"``)
 - ``CREDENTIALS_SOCIAL_AUTH_EDX_OAUTH2_LOGOUT_URL`` (default: ``"{{ SOCIAL_AUTH_EDX_OAUTH2_ISSUER }}/logout"``)
 
+Operations
+----------
 
+Using Django Admin
+~~~~~~~~~~~~~~~~~~
+
+The credentials user interface will be available at http://credentials.local.overhang.io for a local instance, and at ``CREDENTIALS_HOST`` (by  default: ``http(s)://credentials.<yours lms host>``) in production. In order to run commands from the UI login with an admin user at: http://credentials.local.overhang.io/admin/
+
+Funding
+-------
+
+.. image:: https://www.academiacentral.org/wp-content/uploads/2019/05/academia-nobeta.png
+    :alt: Academia Central
+    :target: https://www.academiacentral.org/
+
+This plugin was developed and open sourced to the community thanks to the generous support of `Academia Central <https://www.academiacentral.org/>`_. Thank you!
 
 License
 -------

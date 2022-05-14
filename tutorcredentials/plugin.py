@@ -17,6 +17,7 @@ config = {
         "EXTRA_PIP_REQUIREMENTS": [],
         "FAVICON_URL": "https://edx-cdn.org/v3/default/favicon.ico",
         "HOST": "credentials.{{ LMS_HOST }}",
+        "LMS_URL_ROOT": "{{ LMS_HOST }}",
         "LOGO_TRADEMARK_URL": "https://edx-cdn.org/v3/default/logo-trademark.svg",
         "LOGO_TRADEMARK_URL_PNG": "https://edx-cdn.org/v3/default/logo-trademark.png",
         "LOGO_TRADEMARK_URL_SVG": "https://edx-cdn.org/v3/default/logo-trademark.svg",

@@ -1,6 +1,3 @@
-/*
- * Sync the credentials user table from lms
- */
 INSERT credentials.core_user (password, last_login, is_superuser, username, first_name, last_name, email, is_staff, is_active, date_joined, full_name, lms_user_id)
 	SELECT	lms_user.password,
 			lms_user.last_login,
@@ -17,5 +14,6 @@ INSERT credentials.core_user (password, last_login, is_superuser, username, firs
 	FROM	openedx.auth_user lms_user
 			LEFT JOIN openedx.auth_userprofile as lms_profile ON (lms_user.id = lms_profile.user_id)
 			LEFT JOIN credentials.core_user credentials_user ON (lms_user.id = credentials_user.lms_user_id)
-	WHERE	(credentials_user.id IS NULL);
-
+			LEFT JOIN credentials.core_user credentials_user2 ON (lms_user.username = credentials_user2.username)
+	WHERE	(credentials_user.id IS NULL) AND
+			(credentials_user2.username IS NULL);

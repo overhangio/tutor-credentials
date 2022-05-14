@@ -9,14 +9,14 @@ from .__about__ import __version__
 
 ################# Configuration
 config = {
-    # Add here your new settings
     "defaults": {
-        "VERSION": __version__,
+        "BACKEND_SERVICE_EDX_OAUTH2_PROVIDER_URL": "http://lms:8000/oauth2",
+        "BACKEND_SERVICE_EDX_OAUTH2_KEY": "{{ CREDENTIALS_OAUTH2_KEY }}",
+        "CATALOG_API_URL": "{{ LMS_HOST }}",
         "DOCKER_IMAGE": "{{ DOCKER_REGISTRY }}lpm0073/openedx-credentials:{{ CREDENTIALS_VERSION }}",
         "EXTRA_PIP_REQUIREMENTS": [],
+        "FAVICON_URL": "https://edx-cdn.org/v3/default/favicon.ico",
         "HOST": "credentials.{{ LMS_HOST }}",
-        "MYSQL_DATABASE": "credentials",
-        "MYSQL_USERNAME": "credentials",
         "LOGO_TRADEMARK_URL": "https://edx-cdn.org/v3/default/logo-trademark.svg",
         "LOGO_TRADEMARK_URL_PNG": "https://edx-cdn.org/v3/default/logo-trademark.png",
         "LOGO_TRADEMARK_URL_SVG": "https://edx-cdn.org/v3/default/logo-trademark.svg",
@@ -26,15 +26,18 @@ config = {
         "LOGO_WHITE_URL": "https://edx-cdn.org/v3/default/logo-white.svg",
         "LOGO_WHITE_URL_PNG": "https://edx-cdn.org/v3/default/logo-white.png",
         "LOGO_WHITE_URL_SVG": "https://edx-cdn.org/v3/default/logo-white.svg",
-        "FAVICON_URL": "https://edx-cdn.org/v3/default/favicon.ico",
+        "MYSQL_DATABASE": "credentials",
+        "MYSQL_USERNAME": "credentials",
         "OAUTH2_KEY": "credentials-backend-service-key",
+        "PRIVACY_POLICY_URL": "{{ LMS_HOST }}/privacy-policy",
+        "SITE_NAME": "{{ LMS_HOST }}",
         "SOCIAL_AUTH_REDIRECT_IS_HTTPS": False,
         "SOCIAL_AUTH_EDX_OAUTH2_ISSUER": "https://{{ LMS_HOST }}",
         "SOCIAL_AUTH_EDX_OAUTH2_URL_ROOT": "http://lms:8000",
         "SOCIAL_AUTH_EDX_OAUTH2_KEY": "credentials-sso-key",
         "SOCIAL_AUTH_EDX_OAUTH2_LOGOUT_URL": "{{ LMS_HOST }}/logout",
-        "BACKEND_SERVICE_EDX_OAUTH2_KEY": "{{ CREDENTIALS_OAUTH2_KEY }}",
-        "BACKEND_SERVICE_EDX_OAUTH2_PROVIDER_URL": "http://lms:8000/oauth2"
+        "VERSION": __version__,
+        "TOS_URL": "{{ LMS_HOST }}/tos",
     },
     # Add here settings that don't have a reasonable default for all users. For
     # instance: passwords, secret keys, etc.

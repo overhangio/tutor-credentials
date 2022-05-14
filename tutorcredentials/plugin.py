@@ -59,6 +59,18 @@ tutor_hooks.Filters.COMMANDS_INIT.add_item(
         ("credentials", "tasks", "lms", "init"),
     )
 )
+tutor_hooks.Filters.COMMANDS_INIT.add_item(
+    (
+        "credentials",
+        ("credentials", "tasks", "credentials", "init"),
+    )
+)
+tutor_hooks.Filters.COMMANDS_INIT.add_item(
+    (
+        "mysql",
+        ("credentials", "tasks", "mysql", "init"),
+    )
+)
 tutor_hooks.Filters.IMAGES_BUILD.add_item(
     (
         "credentials",

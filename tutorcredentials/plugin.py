@@ -80,7 +80,6 @@ tutor_hooks.Filters.COMMANDS_INIT.add_item(
 tutor_hooks.Filters.IMAGES_BUILD.add_item(
     (
         "credentials",
-        ("credentials", "tasks", "credentials", "build"),
         ("plugins", "credentials", "build", "credentials"),
         "{{ CREDENTIALS_DOCKER_IMAGE }}",
         (),

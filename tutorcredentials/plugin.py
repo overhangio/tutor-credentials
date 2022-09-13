@@ -85,6 +85,12 @@ tutor_hooks.Filters.IMAGES_BUILD.add_item(
         (),
     )
 )
+tutor_hooks.Filters.COMMANDS_INIT.add_item(
+    (
+        "mysql",
+        ("credentials", "tasks", "mysql", "sync_users"),
+    )
+)
 
 @tutor_hooks.Filters.IMAGES_PULL.add()
 @tutor_hooks.Filters.IMAGES_PUSH.add()

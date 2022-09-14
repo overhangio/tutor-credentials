@@ -51,7 +51,7 @@ RUN cd /openedx/requirements/ \
 
 # collect static assets. Based on https://github.com/openedx/credentials/blob/master/Makefile#L127
 # note: webpack is located in $NODE_ENV/bin/ which was added to the $PATH, above
-RUN webpack --config webpack.config.js
+RUN $NODE_ENV/bin/webpack --config webpack.config.js
 RUN python manage.py compilejsi18n
 RUN python manage.py collectstatic --noinput -i *.scss
 

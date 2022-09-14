@@ -152,7 +152,7 @@ ENV CREDENTIALS_CFG /openedx/config.yml
 
 # Collect static assets
 COPY --chown=app:app assets.py ./credentials/settings/assets.py
-ENV DJANGO_SETTINGS_MODULE license_manager.settings.assets
+ENV DJANGO_SETTINGS_MODULE credentials.settings.assets
 RUN python3 manage.py compilejsi18n --noinput
 RUN python3 manage.py collectstatic --noinput
 

@@ -118,6 +118,7 @@ ARG APP_USER_ID=1000
 RUN useradd --home-dir /openedx --create-home --shell /bin/bash --uid ${APP_USER_ID} app
 USER ${APP_USER_ID}
 
+#
 COPY --from=dockerize /usr/local/bin/dockerize /usr/local/bin/dockerize
 COPY --chown=app:app --from=code /openedx/credentials /openedx/credentials
 COPY --chown=app:app --from=locales /openedx/locale /openedx/locale
@@ -134,11 +135,14 @@ WORKDIR /openedx/credentials
 # Re-install local requirements, otherwise egg-info folders are missing
 RUN pip install -r requirements/production.in
 
+# mcdaniel: this breaks. no idea if we really need it.
+# -----------------------------------------------------------------------------
 # Copy user-specific locales to /openedx/locale/user/locale and compile them
-RUN mkdir /openedx/locale/user
-COPY --chown=app:app ./locale/ /openedx/locale/user/locale/
-RUN cd /openedx/locale/user && \
-    django-admin compilemessages -v1
+# RUN mkdir /openedx/locale/user
+# COPY --chown=app:app ./locale/ /openedx/locale/user/locale/
+# RUN cd /openedx/locale/user && \
+#     django-admin compilemessages -v1
+# -----------------------------------------------------------------------------
 
 {{ patch("credentials-dockerfile-pre-assets") }}
 

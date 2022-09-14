@@ -39,6 +39,7 @@ hooks.Filters.CONFIG_DEFAULTS.add_items(
         ("CREDENTIALS_MYSQL_DATABASE", "credentials"),
         ("CREDENTIALS_MYSQL_USERNAME", "credentials"),
         ("CREDENTIALS_OAUTH2_KEY", "credentials-backend-service-key"),
+        ("CREDENTIALS_PLATFORM_NAME", "{{ OPENEDX_PLATFORM_NAME }}"),
         ("CREDENTIALS_PRIVACY_POLICY_URL", "{{ CREDENTIALS_LMS_HOST }}/privacy-policy"),
         ("CREDENTIALS_SITE_NAME", "{{ CREDENTIALS_LMS_HOST }}"),
         ("CREDENTIALS_SOCIAL_AUTH_REDIRECT_IS_HTTPS", False),
@@ -58,10 +59,8 @@ hooks.Filters.CONFIG_UNIQUE.add_items(
         # Each new setting is a pair, (setting_name, unique_generated_value).
         # Prefix your setting names with 'CREDENTIALS_'.
         # For example:
-        # ("CREDENTIALS_SECRET_KEY", "{{ 24|random_string }}"),
         ("CREDENTIALS_MYSQL_PASSWORD", "{{ 8|random_string }}"),
         ("CREDENTIALS_OAUTH2_SECRET", "{{ 16|random_string }}"),
-        ("CREDENTIALS_SECRET_KEY", "{{ 24|random_string }}"),
         ("CREDENTIALS_SOCIAL_AUTH_EDX_OAUTH2_SECRET", "{{ 16|random_string }}"),
         ("CREDENTIALS_BACKEND_SERVICE_EDX_OAUTH2_SECRET", "{{ 16|random_string }}"),
     ]

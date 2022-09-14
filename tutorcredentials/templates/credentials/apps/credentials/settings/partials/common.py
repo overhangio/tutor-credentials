@@ -1,7 +1,7 @@
 import json
 from credentials.settings.utils import get_logger_config
 
-SECRET_KEY = "{{ CREDENTIALS_SECRET_KEY }}"
+SECRET_KEY = "{{ OPENEDX_SECRET_KEY }}"
 ALLOWED_HOSTS = [
     "{{ CREDENTIALS_HOST }}",
     "CREDENTIALS",

@@ -53,7 +53,6 @@ Application configuration
 - ``CREDENTIALS_DOCKER_IMAGE`` (default: ``"{{ DOCKER_REGISTRY }}lpm0073/openedx-credentials:{{ CREDENTIALS_VERSION }}"``)
 - ``CREDENTIALS_EXTRA_PIP_REQUIREMENTS`` (default: ``[]``)
 - ``CREDENTIALS_PRIVACY_POLICY_URL``  (default: ``"LMS_HOST/pricacy-policy"``)
-- ``CREDENTIALS_SECRET_KEY`` (default: ``"CHANGE-ME"``)
 - ``CREDENTIALS_SITE_NAME`` (default: ``"LMS_HOST"``)
 - ``CREDENTIALS_TOS_URL`` (default: ``"{{ LMS_HOST }}/tos"``)
 

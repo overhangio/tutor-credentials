@@ -17,6 +17,7 @@ hooks.Filters.CONFIG_DEFAULTS.add_items(
         # Each new setting is a pair, (setting_name, default_value).
         # Prefix your setting names with 'CREDENTIALS_'.
         ("CREDENTIALS_VERSION", __version__),
+
         ("CREDENTIALS_BACKEND_SERVICE_EDX_OAUTH2_PROVIDER_URL", "http://lms:8000/oauth2"),
         ("CREDENTIALS_BACKEND_SERVICE_EDX_OAUTH2_KEY", "{{ CREDENTIALS_OAUTH2_KEY }}"),
         ("CREDENTIALS_CATALOG_API_URL", "{{ CREDENTIALS_LMS_HOST }}"),
@@ -38,7 +39,10 @@ hooks.Filters.CONFIG_DEFAULTS.add_items(
         ("CREDENTIALS_LOGO_WHITE_URL_SVG", "https://edx-cdn.org/v3/default/logo-white.svg"),
         ("CREDENTIALS_MYSQL_DATABASE", "credentials"),
         ("CREDENTIALS_MYSQL_USERNAME", "credentials"),
-        ("CREDENTIALS_OAUTH2_KEY", "credentials-backend-service-key"),
+        ("CREDENTIALS_OAUTH2_KEY", "credentials-key"),
+        ("CREDENTIALS_OAUTH2_KEY_DEV", "credentials-key-dev"),
+        ("CREDENTIALS_OAUTH2_KEY_SSO", "credentials-key-sso"),
+        ("CREDENTIALS_OAUTH2_KEY_SSO_DEV", "credentials-key-sso-dev"),
         ("CREDENTIALS_PLATFORM_NAME", "{{ OPENEDX_PLATFORM_NAME }}"),
         ("CREDENTIALS_PRIVACY_POLICY_URL", "{{ CREDENTIALS_LMS_HOST }}/privacy-policy"),
         ("CREDENTIALS_SITE_NAME", "{{ CREDENTIALS_LMS_HOST }}"),
@@ -63,6 +67,13 @@ hooks.Filters.CONFIG_UNIQUE.add_items(
         ("CREDENTIALS_OAUTH2_SECRET", "{{ 16|random_string }}"),
         ("CREDENTIALS_SOCIAL_AUTH_EDX_OAUTH2_SECRET", "{{ 16|random_string }}"),
         ("CREDENTIALS_BACKEND_SERVICE_EDX_OAUTH2_SECRET", "{{ 16|random_string }}"),
+        ("CREDENTIALS_SOCIAL_AUTH_EDX_OAUTH2_SECRET", "{{ 16|random_string }}"),
+        ("CREDENTIALS_BACKEND_SERVICE_EDX_OAUTH2_SECRET", "{{ 16|random_string }}"),
+        ("CREDENTIALS_OAUTH2_SECRET", "{{ 16|random_string }}"),
+        ("CREDENTIALS_OAUTH2_SECRET_DEV", "{{ 16|random_string }}"),
+        ("CREDENTIALS_OAUTH2_SECRET_SSO", "{{ 16|random_string }}"),
+        ("CREDENTIALS_OAUTH2_SECRET_SSO_DEV", "{{ 16|random_string }}"),
+
     ]
 )
 
@@ -112,7 +123,7 @@ hooks.Filters.COMMANDS_INIT.add_item((
 hooks.Filters.IMAGES_BUILD.add_item((
     "credentials",
     ("plugins", "credentials", "build", "credentials"),
-    "{{ LICENSE_MANAGER_DOCKER_IMAGE }}",
+    "{{ CREDENTIALS_DOCKER_IMAGE }}",
     (),
 ))
 

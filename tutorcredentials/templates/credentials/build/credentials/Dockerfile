@@ -135,6 +135,10 @@ WORKDIR /openedx/credentials
 # Re-install local requirements, otherwise egg-info folders are missing
 RUN pip install -r requirements/production.in
 
+# Setup minimal yml config file, which is required by production settings
+RUN echo "{}" > /openedx/config.yml
+ENV CREDENTIALS_CFG /openedx/config.yml
+
 # mcdaniel: this breaks. no idea if we really need it.
 # -----------------------------------------------------------------------------
 # Copy user-specific locales to /openedx/locale/user/locale and compile them
@@ -146,20 +150,16 @@ RUN pip install -r requirements/production.in
 
 {{ patch("credentials-dockerfile-pre-assets") }}
 
-# Compile i18n strings: in some cases, js locales are not properly compiled out of the box
-# and we need to do a pass ourselves. Also, we need to compile the djangojs.js files for
-# the downloaded locales.
-RUN ./manage.py compilejsi18n --settings=tutor.production
-RUN python manage.py collectstatic --noinput --settings=tutor.production
+# Collect static assets
+COPY --chown=app:app assets.py ./credentials/settings/assets.py
+ENV DJANGO_SETTINGS_MODULE license_manager.settings.assets
+RUN python3 manage.py compilejsi18n --noinput
+RUN python3 manage.py collectstatic --noinput
+
+ENV DJANGO_SETTINGS_MODULE credentials.settings.tutor.production
 
 # Create a data directory, which might be used (or not)
 RUN mkdir /openedx/data
-
-# Setup minimal yml config file, which is required by production settings
-RUN echo "{}" > /openedx/config.yml
-ENV CREDENTIALS_CFG /openedx/config.yml
-
-ENV DJANGO_SETTINGS_MODULE credentials.settings.tutor.production
 
 {{ patch("credentials-dockerfile") }}
 

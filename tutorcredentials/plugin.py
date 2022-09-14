@@ -70,7 +70,6 @@ hooks.Filters.CONFIG_UNIQUE.add_items(
         ("CREDENTIALS_OAUTH2_SECRET_DEV", "{{ 16|random_string }}"),
         ("CREDENTIALS_OAUTH2_SECRET_SSO", "{{ 16|random_string }}"),
         ("CREDENTIALS_OAUTH2_SECRET_SSO_DEV", "{{ 16|random_string }}"),
-
     ]
 )
 

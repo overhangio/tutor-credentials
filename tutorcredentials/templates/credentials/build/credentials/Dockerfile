@@ -108,7 +108,7 @@ USER ${APP_USER_ID}
 
 COPY --from=dockerize /usr/local/bin/dockerize /usr/local/bin/dockerize
 COPY --chown=app:app --from=code /openedx/credentials /openedx/credentials
-COPY --chown=app:app --from=locales /openedx/locale /openedx/locale
+#COPY --chown=app:app --from=locales /openedx/locale /openedx/locale
 COPY --chown=app:app --from=python /opt/pyenv /opt/pyenv
 COPY --chown=app:app --from=python-requirements /openedx/venv /openedx/venv
 COPY --chown=app:app --from=python-requirements /openedx/requirements /openedx/requirements

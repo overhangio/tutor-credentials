@@ -64,9 +64,6 @@ hooks.Filters.CONFIG_UNIQUE.add_items(
         # Prefix your setting names with 'CREDENTIALS_'.
         # For example:
         ("CREDENTIALS_MYSQL_PASSWORD", "{{ 8|random_string }}"),
-        ("CREDENTIALS_OAUTH2_SECRET", "{{ 16|random_string }}"),
-        ("CREDENTIALS_SOCIAL_AUTH_EDX_OAUTH2_SECRET", "{{ 16|random_string }}"),
-        ("CREDENTIALS_BACKEND_SERVICE_EDX_OAUTH2_SECRET", "{{ 16|random_string }}"),
         ("CREDENTIALS_SOCIAL_AUTH_EDX_OAUTH2_SECRET", "{{ 16|random_string }}"),
         ("CREDENTIALS_BACKEND_SERVICE_EDX_OAUTH2_SECRET", "{{ 16|random_string }}"),
         ("CREDENTIALS_OAUTH2_SECRET", "{{ 16|random_string }}"),

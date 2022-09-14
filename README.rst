@@ -43,9 +43,6 @@ Application configuration
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
 - ``CREDENTIALS_HOST`` (default: ``"credentials.{{ LMS_HOST }}"``)
-- ``CREDENTIALS_LMS_HOST``  (default: ``"myopenedxsite.com"``)
-- ``CREDENTIALS_LMS_URL_ROOT`` (default: ``"http://{{ CREDENTIALS_LMS_HOST }}"``)
-- ``CREDENTIALS_LMS_URL``  (default: ``"http://{{ CREDENTIALS_LMS_HOST }}"``)
 - ``CREDENTIALS_MYSQL_DATABASE`` (default: ``"credentials"``)
 - ``CREDENTIALS_MYSQL_USERNAME`` (default: ``"credentials"``)
 - ``CREDENTIALS_MYSQL_PASSWORD`` (default: ``"{{ 8|random_string }}"``)

@@ -3,7 +3,7 @@ from credentials.settings.utils import get_logger_config
 
 SECRET_KEY = "{{ OPENEDX_SECRET_KEY }}"
 ALLOWED_HOSTS = [
-    "{{ CREDENTIALS_HOST }}.{{ OPENEDX_LMS_BASE }}",
+    "{{ CREDENTIALS_HOST }}",
     "CREDENTIALS",
 ]
 PLATFORM_NAME = "{{ PLATFORM_NAME }}"

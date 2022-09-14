@@ -43,6 +43,18 @@ WORKDIR /openedx/credentials
 
 {{ patch("credentials-dockerfile-post-git-checkout") }}
 
+###### Download extra locales to /openedx/locale/contrib/locale
+# mcdaniel: including these just in case there are implied dependencies
+# on emitted credential data, which would be platform specific obviously.
+FROM minimal as locales
+ARG OPENEDX_I18N_VERSION={{ OPENEDX_COMMON_VERSION }}
+RUN cd /tmp \
+    && curl -L -o openedx-i18n.tar.gz https://github.com/openedx/openedx-i18n/archive/$OPENEDX_I18N_VERSION.tar.gz \
+    && tar xzf /tmp/openedx-i18n.tar.gz \
+    && mkdir -p /openedx/locale/contrib \
+    && mv openedx-i18n-*/edx-platform/locale /openedx/locale/contrib \
+    && rm -rf openedx-i18n*
+
 ###### Install python requirements in virtualenv
 FROM python as python-requirements
 ENV PATH /openedx/venv/bin:${PATH}
@@ -108,7 +120,7 @@ USER ${APP_USER_ID}
 
 COPY --from=dockerize /usr/local/bin/dockerize /usr/local/bin/dockerize
 COPY --chown=app:app --from=code /openedx/credentials /openedx/credentials
-#COPY --chown=app:app --from=locales /openedx/locale /openedx/locale
+COPY --chown=app:app --from=locales /openedx/locale /openedx/locale
 COPY --chown=app:app --from=python /opt/pyenv /opt/pyenv
 COPY --chown=app:app --from=python-requirements /openedx/venv /openedx/venv
 COPY --chown=app:app --from=python-requirements /openedx/requirements /openedx/requirements

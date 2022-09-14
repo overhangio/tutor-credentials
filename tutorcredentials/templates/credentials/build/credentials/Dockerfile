@@ -21,7 +21,7 @@ RUN pip install setuptools==44.1.0 pip==20.3.4
 
 # Install credentials
 ARG CREDENTIALS_REPOSITORY=https://github.com/edx/credentials.git
-ARG CREDENTIALS_VERSION="open-release/maple.master"
+ARG CREDENTIALS_VERSION="open-release/nutmeg.master"
 RUN mkdir -p /openedx/credentials && \
     git clone $CREDENTIALS_REPOSITORY --branch $CREDENTIALS_VERSION --depth 1 /openedx/credentials
 WORKDIR /openedx/credentials
@@ -48,6 +48,12 @@ RUN cd /openedx/requirements/ \
 
 {% for extra_requirement in CREDENTIALS_EXTRA_PIP_REQUIREMENTS %}RUN pip install {{ extra_requirement }}
 {% endfor %}
+
+# collect static assets. Based on https://github.com/openedx/credentials/blob/master/Makefile#L127
+# note: webpack is located in $NODE_ENV/bin/ which was added to the $PATH, above
+RUN webpack --config webpack.config.js
+RUN python manage.py compilejsi18n
+RUN python manage.py collectstatic --noinput -i *.scss
 
 # Setup minimal yml config file, which is required by production settings
 RUN echo "{}" > /openedx/config.yml

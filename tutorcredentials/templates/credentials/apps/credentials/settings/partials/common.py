@@ -93,7 +93,6 @@ for logger in LOGGING["loggers"].values():
     if "local" in logger["handlers"]:
         logger["handlers"].remove("local")
 
-{{ patch("credentials-settings-common") }}
 
 # STATIC FILE CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#static-root
@@ -107,3 +106,5 @@ STATIC_URL = "/static/"
 
 # See: https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#std:setting-STATICFILES_DIRS
 STATICFILES_DIRS = (root("static"),)
+
+{{ patch("credentials-settings-common") }}

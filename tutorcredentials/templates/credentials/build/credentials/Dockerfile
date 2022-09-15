@@ -157,6 +157,7 @@ COPY --chown=app:app assets.py ./credentials/settings/assets.py
 ENV DJANGO_SETTINGS_MODULE credentials.settings.assets
 RUN python3 manage.py compilejsi18n
 RUN python3 manage.py collectstatic --noinput
+RUN node_modules/.bin/webpack --config webpack.config.js
 
 ENV DJANGO_SETTINGS_MODULE credentials.settings.tutor.production
 

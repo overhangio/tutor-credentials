@@ -172,8 +172,8 @@ EXPOSE 8000
 FROM production as final
 
 CMD uwsgi \
-    --static-map /static=/openedx/credentials/assets \
-    --static-map /media=/openedx/credentials/course_credentials/media \
+    --static-map /static=/openedx/credentials/credentials/assets \
+    --static-map /media=/openedx/credentials/credentials/media \
     --http 0.0.0.0:8000 \
     --thunder-lock \
     --single-interpreter \

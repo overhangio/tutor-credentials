@@ -90,6 +90,10 @@ Application Third party authentication
 Operations
 ----------
 
+.. image:: https://github.com/lpm0073/tutor-contrib-credentials/blob/main/doc/django-admin-screen-shot.png
+    :alt: Django Admin
+
+
 Using Django Admin
 ~~~~~~~~~~~~~~~~~~
 

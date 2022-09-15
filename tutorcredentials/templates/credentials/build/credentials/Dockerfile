@@ -109,6 +109,8 @@ RUN npm install --verbose --registry=$NPM_REGISTRY
 FROM minimal as production
 
 # Install system requirements
+# mcdaniel: these are the edx-platform system requirements.
+# TO DO: remove any packages that are not needed for Credentials.
 RUN apt update && \
     apt install -y gettext gfortran graphviz graphviz-dev libffi-dev libfreetype6-dev libgeos-dev libjpeg8-dev liblapack-dev libmysqlclient-dev libpng-dev libsqlite3-dev libxmlsec1-dev lynx ntp pkg-config rdfind && \
     rm -rf /var/lib/apt/lists/*
@@ -118,7 +120,7 @@ ARG APP_USER_ID=1000
 RUN useradd --home-dir /openedx --create-home --shell /bin/bash --uid ${APP_USER_ID} app
 USER ${APP_USER_ID}
 
-#
+# change file ownership to the new app user
 COPY --from=dockerize /usr/local/bin/dockerize /usr/local/bin/dockerize
 COPY --chown=app:app --from=code /openedx/credentials /openedx/credentials
 COPY --chown=app:app --from=locales /openedx/locale /openedx/locale

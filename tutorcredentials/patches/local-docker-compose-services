@@ -6,6 +6,6 @@ credentials:
   volumes:
     - ../plugins/credentials/apps/credentials/settings:/openedx/credentials/credentials/settings/tutor:ro
   depends_on:
+    - lms
     - discovery
     {% if RUN_MYSQL %}- mysql{% endif %}
-    {% if RUN_LMS %}- lms{% endif %}

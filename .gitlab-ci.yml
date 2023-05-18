@@ -1,0 +1,11 @@
+variables:
+    TUTOR_PLUGIN: credentials
+    TUTOR_IMAGES: credentials
+    TUTOR_PYPI_PACKAGE: tutor-credentials
+    OPENEDX_RELEASE: palm
+    GITHUB_REPO: overhangio/tutor-credentials
+    TUTOR_EXTRA_ENABLED_PLUGINS: discovery mfe
+
+include:
+  - project: 'community/tutor-ci'
+    file: 'plugin-gitlab-ci.yml'

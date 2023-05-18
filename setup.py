@@ -25,12 +25,12 @@ ABOUT = load_about()
 
 
 setup(
-    name="tutor-contrib-credentials",
+    name="tutor-credentials",
     version=ABOUT["__version__"],
-    url="https://github.com/lpm0073/tutor-contrib-credentials",
+    url="https://github.com/overhangio/tutor-credentials.git",
     project_urls={
-        "Code": "https://github.com/lpm0073/tutor-contrib-credentials",
-        "Issue tracker": "https://github.com/lpm0073/tutor-contrib-credentials/issues",
+        "Code": "https://github.com/overhangio/tutor-credentials.git",
+        "Issue tracker": "https://github.com/overhangio/tutor-credentials.git/issues",
         "Community": "https://discuss.overhang.io",
     },
     license="AGPLv3",
@@ -40,22 +40,18 @@ setup(
     long_description=load_readme(),
     packages=find_packages(exclude=["tests*"]),
     include_package_data=True,
-    python_requires=">=3.7",
-    install_requires=["tutor"],
-    entry_points={
-        "tutor.plugin.v1": [
-            "credentials = tutorcredentials.plugin"
-        ]
-    },
+    python_requires=">=3.8",
+    install_requires=["tutor>=16.0.0,<17.0.0", "tutor-discovery>=16.0.0,<17.0.0", "tutor-mfe>=16.0.0,<17.0.0"],
+    entry_points={"tutor.plugin.v1": ["credentials = tutorcredentials.plugin"]},
     classifiers=[
         "Development Status :: 3 - Alpha",
         "Intended Audience :: Developers",
         "License :: OSI Approved :: GNU Affero General Public License v3",
         "Operating System :: OS Independent",
         "Programming Language :: Python",
-        "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
     ],
 )

@@ -1,8 +1,11 @@
+from __future__ import annotations
+
 from glob import glob
 import os
 import pkg_resources
+import typing as t
 
-from tutor import hooks
+from tutor import hooks as tutor_hooks
 
 from .__about__ import __version__
 
@@ -11,17 +14,16 @@ from .__about__ import __version__
 # CONFIGURATION
 ########################################
 
-hooks.Filters.CONFIG_DEFAULTS.add_items(
+tutor_hooks.Filters.CONFIG_DEFAULTS.add_items(
     [
         # Add your new settings that have default values here.
         # Each new setting is a pair, (setting_name, default_value).
         # Prefix your setting names with 'CREDENTIALS_'.
         ("CREDENTIALS_VERSION", __version__),
-
         ("CREDENTIALS_BACKEND_SERVICE_EDX_OAUTH2_PROVIDER_URL", "http://lms:8000/oauth2"),
         ("CREDENTIALS_BACKEND_SERVICE_EDX_OAUTH2_KEY", "{{ CREDENTIALS_OAUTH2_KEY }}"),
         ("CREDENTIALS_CATALOG_API_URL", "{{ LMS_HOST }}"),
-        ("CREDENTIALS_DOCKER_IMAGE", "{{ DOCKER_REGISTRY }}lpm0073/openedx-credentials:{{ CREDENTIALS_VERSION }}"),
+        ("CREDENTIALS_DOCKER_IMAGE", "{{ DOCKER_REGISTRY }}overhangio/openedx-credentials:{{ CREDENTIALS_VERSION }}"),
         ("CREDENTIALS_EXTRA_PIP_REQUIREMENTS", []),
         ("CREDENTIALS_FAVICON_URL", "https://edx-cdn.org/v3/default/favicon.ico"),
         ("CREDENTIALS_HOST", "credentials.{{ LMS_HOST }}"),
@@ -55,7 +57,7 @@ hooks.Filters.CONFIG_DEFAULTS.add_items(
     ]
 )
 
-hooks.Filters.CONFIG_UNIQUE.add_items(
+tutor_hooks.Filters.CONFIG_UNIQUE.add_items(
     [
         # Add settings that don't have a reasonable default for all users here.
         # For instance, passwords, secret keys, etc.
@@ -72,7 +74,7 @@ hooks.Filters.CONFIG_UNIQUE.add_items(
     ]
 )
 
-hooks.Filters.CONFIG_OVERRIDES.add_items(
+tutor_hooks.Filters.CONFIG_OVERRIDES.add_items(
     [
         # Danger zone!
         # Add values to override settings from Tutor core or other plugins here.
@@ -87,48 +89,83 @@ hooks.Filters.CONFIG_OVERRIDES.add_items(
 ########################################
 
 # To run the script from templates/credentials/tasks/myservice/init, add:
-hooks.Filters.COMMANDS_INIT.add_item((
-        "mysql",
-        ("credentials", "tasks", "mysql", "init"),
-))
-hooks.Filters.COMMANDS_INIT.add_item((
-        "lms",
-        ("credentials", "tasks", "lms", "init"),
-))
-hooks.Filters.COMMANDS_INIT.add_item((
-        "credentials",
-        ("credentials", "tasks", "credentials", "init"),
-))
-hooks.Filters.IMAGES_BUILD.add_item((
-        "credentials",
-        ("plugins", "credentials", "build", "credentials"),
-        "{{ CREDENTIALS_DOCKER_IMAGE }}",
-        (),
-))
-hooks.Filters.COMMANDS_INIT.add_item((
-        "mysql",
-        ("credentials", "tasks", "mysql", "sync_users"),
-))
+MY_INIT_TASKS = [
+    ("mysql", ("templates", "credentials", "tasks", "mysql", "init")),
+    ("lms", ("templates", "credentials", "tasks", "lms", "init")),
+    ("credentials", ("templates", "credentials", "tasks", "credentials", "init")),
+    ("mysql", ("templates", "credentials", "tasks", "mysql", "sync_users")),
+]
+
+HERE = os.path.abspath(os.path.dirname(__file__))
+for service, template_path in MY_INIT_TASKS:
+    full_path: str = os.path.join(HERE, *template_path)
+
+    with open(full_path, encoding="utf-8") as init_task_file:
+        init_task: str = init_task_file.read()
+        tutor_hooks.Filters.CLI_DO_INIT_TASKS.add_item((service, init_task))
+
+########################################
+# Credentials Public Host
+########################################
+
+
+@tutor_hooks.Filters.APP_PUBLIC_HOSTS.add()
+def _print_credentials_public_hosts(hosts: list[str], context_name: t.Literal["local", "dev"]) -> list[str]:
+    if context_name == "dev":
+        hosts += ["{{ CREDENTIALS_HOST }}:8150"]
+    else:
+        hosts += ["{{ CREDENTIALS_HOST }}"]
+    return hosts
+
+
+########################################
+# Mount Credentials
+########################################
+
+REPO_NAME = "credentials"
+
+
+# Automount /openedx/credentials folder from the container
+@tutor_hooks.Filters.COMPOSE_MOUNTS.add()
+def _mount_credentials_apps(mounts, path_basename):
+    if path_basename == REPO_NAME:
+        app_name = REPO_NAME
+        mounts += [(app_name, "/openedx/credentials")]
+    return mounts
+
+
+# Bind-mount repo at build-time, both for prod and dev images
+@tutor_hooks.Filters.IMAGES_BUILD_MOUNTS.add()
+def _mount_credentials_on_build(mounts: list[tuple[str, str]], host_path: str) -> list[tuple[str, str]]:
+    path_basename = os.path.basename(host_path)
+    if path_basename == REPO_NAME:
+        app_name = REPO_NAME
+        mounts.append((app_name, f"{app_name}-src"))
+        mounts.append((f"{app_name}-dev", f"{app_name}-src"))
+    return mounts
+
 
 ########################################
 # DOCKER IMAGE MANAGEMENT
 ########################################
 
 # To build an image with `tutor images build myimage`, add a Dockerfile to templates/credentials/build/myimage and write:
-hooks.Filters.IMAGES_BUILD.add_item((
-    "credentials",
-    ("plugins", "credentials", "build", "credentials"),
-    "{{ CREDENTIALS_DOCKER_IMAGE }}",
-    (),
-))
+tutor_hooks.Filters.IMAGES_BUILD.add_item(
+    (
+        "credentials",
+        ("plugins", "credentials", "build", "credentials"),
+        "{{ CREDENTIALS_DOCKER_IMAGE }}",
+        (),
+    )
+)
 
 
 # To pull/push an image with `tutor images pull myimage` and `tutor images push myimage`, write:
-# hooks.Filters.IMAGES_PULL.add_item((
+# tutor_hooks.Filters.IMAGES_PULL.add_item((
 #     "myimage",
 #     "docker.io/myimage:{{ CREDENTIALS_VERSION }}",
 # )
-# hooks.Filters.IMAGES_PUSH.add_item((
+# tutor_hooks.Filters.IMAGES_PUSH.add_item((
 #     "myimage",
 #     "docker.io/myimage:{{ CREDENTIALS_VERSION }}",
 # )
@@ -140,14 +177,14 @@ hooks.Filters.IMAGES_BUILD.add_item((
 #  this section as-is :)
 ########################################
 
-hooks.Filters.ENV_TEMPLATE_ROOTS.add_items(
+tutor_hooks.Filters.ENV_TEMPLATE_ROOTS.add_items(
     # Root paths for template files, relative to the project root.
     [
         pkg_resources.resource_filename("tutorcredentials", "templates"),
     ]
 )
 
-hooks.Filters.ENV_TEMPLATE_TARGETS.add_items(
+tutor_hooks.Filters.ENV_TEMPLATE_TARGETS.add_items(
     # For each pair (source_path, destination_path):
     # templates at ``source_path`` (relative to your ENV_TEMPLATE_ROOTS) will be
     # rendered to ``destination_path`` (relative to your Tutor environment).
@@ -173,4 +210,4 @@ for path in glob(
     )
 ):
     with open(path, encoding="utf-8") as patch_file:
-        hooks.Filters.ENV_PATCHES.add_item((os.path.basename(path), patch_file.read()))
+        tutor_hooks.Filters.ENV_PATCHES.add_item((os.path.basename(path), patch_file.read()))

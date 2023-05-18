@@ -19,6 +19,13 @@ instructions, because git commits are used to generate release notes:
 
 <!-- scriv-insert-here -->
 
+<a id='changelog-16.0.0'></a>
+## v16.0.0 (2023-06-15)
+
+- [Improvement] Add a scriv-compliant changelog. (by @regisb)
+
+- 💥[Feature] Upgrade to Palm. (by @Faraz32123)
+
 ## Version 14.0.0 (2022-09-15)
 
 * general production release for nutmeg.master

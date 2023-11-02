@@ -98,7 +98,7 @@ RUN {% if is_buildkit_enabled() %}--mount=type=cache,target=/openedx/.cache/pip,
   && touch ./private.txt \
   && pip install -r ./private.txt
 
-{% for extra_requirement in CREDENTIALS_EXTRA_PIP_REQUIREMENTS %}RUN {% if is_buildkit_enabled() %}--mount=type=cache,target=/openedx/.cache/pip,sharing=shared {% endif %}pip install '{{ extra_requirements }}'
+{% for extra_requirement in CREDENTIALS_EXTRA_PIP_REQUIREMENTS %}RUN {% if is_buildkit_enabled() %}--mount=type=cache,target=/openedx/.cache/pip,sharing=shared {% endif %}pip install '{{ extra_requirement }}'
 {% endfor %}
 
 ###### Install nodejs with nodeenv in /openedx/nodeenv

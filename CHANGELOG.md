@@ -19,6 +19,11 @@ instructions, because git commits are used to generate release notes:
 
 <!-- scriv-insert-here -->
 
+<a id='changelog-16.0.2'></a>
+## v16.0.2 (2023-11-08)
+
+- [BugFix] Corrected variable name for installing pip extra requirements. (by @Faraz32123)
+
 <a id='changelog-16.0.1'></a>
 ## v16.0.1 (2023-10-24)
 

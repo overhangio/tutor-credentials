@@ -30,6 +30,11 @@ Usage
     tutor plugins enable discovery mfe credentials
     tutor local launch
 
+For Copying programs that user make in `Discovery plugin <https://github.com/overhangio/tutor-discovery>`__ into Credentials. Run the below command:
+::
+
+    tutor local run credentials ./manage.py copy_catalog
+
 Using Django Admin
 ~~~~~~~~~~~~~~~~~~
 
@@ -45,12 +50,14 @@ Application configuration
 - ``CREDENTIALS_MYSQL_DATABASE`` (default: ``"credentials"``)
 - ``CREDENTIALS_MYSQL_USERNAME`` (default: ``"credentials"``)
 - ``CREDENTIALS_MYSQL_PASSWORD`` (default: ``"{{ 8|random_string }}"``)
-- ``CREDENTIALS_CATALOG_API_URL`` (default: ``"{{ LMS_HOST }}"``)
+- ``CREDENTIALS_CATALOG_API_URL`` (default: ``"http://discovery.local.overhang.io/api/v1/"``)
 - ``CREDENTIALS_DOCKER_IMAGE`` (default: ``"{{ DOCKER_REGISTRY }}overhangio/openedx-credentials:{{ CREDENTIALS_VERSION }}"``)
 - ``CREDENTIALS_EXTRA_PIP_REQUIREMENTS`` (default: ``[]``)
 - ``CREDENTIALS_PRIVACY_POLICY_URL``  (default: ``"LMS_HOST/pricacy-policy"``)
 - ``CREDENTIALS_SITE_NAME`` (default: ``"LMS_HOST"``)
 - ``CREDENTIALS_TOS_URL`` (default: ``"{{ LMS_HOST }}/tos"``)
+- ``CREDENTIALS_REPOSITORY`` (default: ``"https://github.com/edx/credentials.git"``)
+- ``CREDENTIALS_REPOSITORY_VERSION`` (default: ``"{{ OPENEDX_COMMON_VERSION }}"``)
 
 Marketing & Theming
 ~~~~~~~~~~~~~~~~~~~

@@ -37,8 +37,8 @@ RUN $PYENV_ROOT/versions/$PYTHON_VERSION/bin/python -m venv /openedx/venv
 
 ###### Checkout credentials
 FROM minimal as code
-ARG CREDENTIALS_REPOSITORY=https://github.com/edx/credentials.git
-ARG CREDENTIALS_VERSION="{{ OPENEDX_COMMON_VERSION }}"
+ARG CREDENTIALS_REPOSITORY="{{ CREDENTIALS_REPOSITORY }}"
+ARG CREDENTIALS_VERSION="{{ CREDENTIALS_REPOSITORY_VERSION }}"
 RUN mkdir -p /openedx/credentials && \
     git clone $CREDENTIALS_REPOSITORY --branch $CREDENTIALS_VERSION --depth 1 /openedx/credentials
 WORKDIR /openedx/credentials

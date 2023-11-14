@@ -30,6 +30,11 @@ Usage
     tutor plugins enable discovery mfe credentials
     tutor local launch
 
+For Copying programs that user make in `Discovery plugin <https://github.com/overhangio/tutor-discovery>`__ into Credentials. Run the below command:
+::
+
+    tutor local run credentials ./manage.py copy_catalog
+
 Using Django Admin
 ~~~~~~~~~~~~~~~~~~
 

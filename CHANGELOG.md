@@ -19,6 +19,12 @@ instructions, because git commits are used to generate release notes:
 
 <!-- scriv-insert-here -->
 
+<a id='changelog-17.0.0'></a>
+## v17.0.0 (2023-11-14)
+
+- 💥[Feature] Upgrade to Quince. (by @Faraz32123)
+- [Bugfix] Fix the issue of site was not being created during tutor dev launch. (by @Faraz32123)
+
 <a id='changelog-16.0.2'></a>
 ## v16.0.2 (2023-11-08)
 

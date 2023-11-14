@@ -22,7 +22,6 @@ tutor_hooks.Filters.CONFIG_DEFAULTS.add_items(
         ("CREDENTIALS_VERSION", __version__),
         ("CREDENTIALS_BACKEND_SERVICE_EDX_OAUTH2_PROVIDER_URL", "http://lms:8000/oauth2"),
         ("CREDENTIALS_BACKEND_SERVICE_EDX_OAUTH2_KEY", "{{ CREDENTIALS_OAUTH2_KEY }}"),
-        ("CREDENTIALS_CATALOG_API_URL", "http://discovery.local.overhang.io/api/v1/"),
         ("CREDENTIALS_DOCKER_IMAGE", "{{ DOCKER_REGISTRY }}overhangio/openedx-credentials:{{ CREDENTIALS_VERSION }}"),
         ("CREDENTIALS_EXTRA_PIP_REQUIREMENTS", []),
         ("CREDENTIALS_FAVICON_URL", "https://edx-cdn.org/v3/default/favicon.ico"),

@@ -50,7 +50,6 @@ Application configuration
 - ``CREDENTIALS_MYSQL_DATABASE`` (default: ``"credentials"``)
 - ``CREDENTIALS_MYSQL_USERNAME`` (default: ``"credentials"``)
 - ``CREDENTIALS_MYSQL_PASSWORD`` (default: ``"{{ 8|random_string }}"``)
-- ``CREDENTIALS_CATALOG_API_URL`` (default: ``"http://discovery.local.overhang.io/api/v1/"``)
 - ``CREDENTIALS_DOCKER_IMAGE`` (default: ``"{{ DOCKER_REGISTRY }}overhangio/openedx-credentials:{{ CREDENTIALS_VERSION }}"``)
 - ``CREDENTIALS_EXTRA_PIP_REQUIREMENTS`` (default: ``[]``)
 - ``CREDENTIALS_PRIVACY_POLICY_URL``  (default: ``"LMS_HOST/pricacy-policy"``)

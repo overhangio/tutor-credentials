@@ -30,10 +30,14 @@ Usage
     tutor plugins enable discovery mfe credentials
     tutor local launch
 
-Using Django Admin
-~~~~~~~~~~~~~~~~~~
+Creating A Superuser
+~~~~~~~~~~~~~~~~~~~~
 
-The credentials user interface will be available at http://credentials.local.overhang.io for a local instance, and at ``CREDENTIALS_HOST`` (by  default: ``http(s)://credentials.<your lms host>``) in production. In order to run commands from the UI login with an admin user at: http://credentials.local.overhang.io/admin/. User should be able to authenticate with the same username and password that he used for his lms.
+The credentials user interface will be available at http://credentials.local.overhang.io for a local instance, and at ``CREDENTIALS_HOST`` (by  default: ``http(s)://credentials.<your lms host>``) in production. To run commands from the UI, a user must be created::
+
+    tutor local run credentials ./manage.py createsuperuser
+    
+Then, you can login with this user at http://credentials.local.overhang.io/admin/. 
 
 Configuration
 -------------

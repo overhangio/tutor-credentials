@@ -112,7 +112,9 @@ for service, template_path in MY_INIT_TASKS:
 
 
 @tutor_hooks.Filters.APP_PUBLIC_HOSTS.add()
-def _print_credentials_public_hosts(hosts: list[str], context_name: t.Literal["local", "dev"]) -> list[str]:
+def _print_credentials_public_hosts(
+    hosts: list[str], context_name: t.Literal["local", "dev"]
+) -> list[str]:
     if context_name == "dev":
         hosts += ["{{ CREDENTIALS_HOST }}:8150"]
     else:
@@ -129,7 +131,9 @@ REPO_NAME = "credentials"
 
 # Automount /openedx/credentials folder from the container
 @tutor_hooks.Filters.COMPOSE_MOUNTS.add()
-def _mount_credentials_apps(mounts, path_basename):
+def _mount_credentials_apps(
+    mounts: list[tuple[str, str]], path_basename: str
+) -> list[tuple[str, str]]:
     if path_basename == REPO_NAME:
         app_name = REPO_NAME
         mounts += [(app_name, "/openedx/credentials")]
@@ -138,7 +142,9 @@ def _mount_credentials_apps(mounts, path_basename):
 
 # Bind-mount repo at build-time, both for prod and dev images
 @tutor_hooks.Filters.IMAGES_BUILD_MOUNTS.add()
-def _mount_credentials_on_build(mounts: list[tuple[str, str]], host_path: str) -> list[tuple[str, str]]:
+def _mount_credentials_on_build(
+    mounts: list[tuple[str, str]], host_path: str
+) -> list[tuple[str, str]]:
     path_basename = os.path.basename(host_path)
     if path_basename == REPO_NAME:
         app_name = REPO_NAME

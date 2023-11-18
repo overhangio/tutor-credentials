@@ -1,10 +1,10 @@
 from __future__ import annotations
 
-from glob import glob
 import os
-import pkg_resources
 import typing as t
+from glob import glob
 
+import pkg_resources
 from tutor import hooks as tutor_hooks
 from tutor.__about__ import __version_suffix__
 
@@ -25,15 +25,30 @@ tutor_hooks.Filters.CONFIG_DEFAULTS.add_items(
         # Each new setting is a pair, (setting_name, default_value).
         # Prefix your setting names with 'CREDENTIALS_'.
         ("CREDENTIALS_VERSION", __version__),
-        ("CREDENTIALS_BACKEND_SERVICE_EDX_OAUTH2_PROVIDER_URL", "http://lms:8000/oauth2"),
+        (
+            "CREDENTIALS_BACKEND_SERVICE_EDX_OAUTH2_PROVIDER_URL",
+            "http://lms:8000/oauth2",
+        ),
         ("CREDENTIALS_BACKEND_SERVICE_EDX_OAUTH2_KEY", "{{ CREDENTIALS_OAUTH2_KEY }}"),
-        ("CREDENTIALS_DOCKER_IMAGE", "{{ DOCKER_REGISTRY }}overhangio/openedx-credentials:{{ CREDENTIALS_VERSION }}"),
+        (
+            "CREDENTIALS_DOCKER_IMAGE",
+            "{{ DOCKER_REGISTRY }}overhangio/openedx-credentials:{{ CREDENTIALS_VERSION }}",
+        ),
         ("CREDENTIALS_EXTRA_PIP_REQUIREMENTS", []),
         ("CREDENTIALS_FAVICON_URL", "https://edx-cdn.org/v3/default/favicon.ico"),
         ("CREDENTIALS_HOST", "credentials.{{ LMS_HOST }}"),
-        ("CREDENTIALS_LOGO_TRADEMARK_URL", "https://edx-cdn.org/v3/default/logo-trademark.svg"),
-        ("CREDENTIALS_LOGO_TRADEMARK_URL_PNG", "https://edx-cdn.org/v3/default/logo-trademark.png"),
-        ("CREDENTIALS_LOGO_TRADEMARK_URL_SVG", "https://edx-cdn.org/v3/default/logo-trademark.svg"),
+        (
+            "CREDENTIALS_LOGO_TRADEMARK_URL",
+            "https://edx-cdn.org/v3/default/logo-trademark.svg",
+        ),
+        (
+            "CREDENTIALS_LOGO_TRADEMARK_URL_PNG",
+            "https://edx-cdn.org/v3/default/logo-trademark.png",
+        ),
+        (
+            "CREDENTIALS_LOGO_TRADEMARK_URL_SVG",
+            "https://edx-cdn.org/v3/default/logo-trademark.svg",
+        ),
         ("CREDENTIALS_LOGO_URL", ""),
         ("CREDENTIALS_LOGO_URL_PNG", "{{ CREDENTIALS_LOGO_URL }}"),
         ("CREDENTIALS_LOGO_URL_SVG", ""),
@@ -90,7 +105,6 @@ tutor_hooks.Filters.CONFIG_OVERRIDES.add_items(
 # INITIALIZATION TASKS
 ########################################
 
-# To run the script from templates/credentials/tasks/myservice/init, add:
 MY_INIT_TASKS = [
     ("mysql", ("templates", "credentials", "tasks", "mysql", "init")),
     ("lms", ("templates", "credentials", "tasks", "lms", "init")),
@@ -105,6 +119,7 @@ for service, template_path in MY_INIT_TASKS:
     with open(full_path, encoding="utf-8") as init_task_file:
         init_task: str = init_task_file.read()
         tutor_hooks.Filters.CLI_DO_INIT_TASKS.add_item((service, init_task))
+
 
 ########################################
 # Credentials Public Host
@@ -157,7 +172,6 @@ def _mount_credentials_on_build(
 # DOCKER IMAGE MANAGEMENT
 ########################################
 
-# To build an image with `tutor images build myimage`, add a Dockerfile to templates/credentials/build/myimage and write:
 tutor_hooks.Filters.IMAGES_BUILD.add_item(
     (
         "credentials",
@@ -168,21 +182,8 @@ tutor_hooks.Filters.IMAGES_BUILD.add_item(
 )
 
 
-# To pull/push an image with `tutor images pull myimage` and `tutor images push myimage`, write:
-# tutor_hooks.Filters.IMAGES_PULL.add_item((
-#     "myimage",
-#     "docker.io/myimage:{{ CREDENTIALS_VERSION }}",
-# )
-# tutor_hooks.Filters.IMAGES_PUSH.add_item((
-#     "myimage",
-#     "docker.io/myimage:{{ CREDENTIALS_VERSION }}",
-# )
-
-
 ########################################
 # TEMPLATE RENDERING
-# (It is safe & recommended to leave
-#  this section as-is :)
 ########################################
 
 tutor_hooks.Filters.ENV_TEMPLATE_ROOTS.add_items(
@@ -193,9 +194,6 @@ tutor_hooks.Filters.ENV_TEMPLATE_ROOTS.add_items(
 )
 
 tutor_hooks.Filters.ENV_TEMPLATE_TARGETS.add_items(
-    # For each pair (source_path, destination_path):
-    # templates at ``source_path`` (relative to your ENV_TEMPLATE_ROOTS) will be
-    # rendered to ``destination_path`` (relative to your Tutor environment).
     [
         ("credentials/build", "plugins"),
         ("credentials/apps", "plugins"),
@@ -205,12 +203,8 @@ tutor_hooks.Filters.ENV_TEMPLATE_TARGETS.add_items(
 
 ########################################
 # PATCH LOADING
-# (It is safe & recommended to leave
-#  this section as-is :)
 ########################################
 
-# For each file in tutorcredentials/patches,
-# apply a patch based on the file's name and contents.
 for path in glob(
     os.path.join(
         pkg_resources.resource_filename("tutorcredentials", "patches"),
@@ -218,4 +212,6 @@ for path in glob(
     )
 ):
     with open(path, encoding="utf-8") as patch_file:
-        tutor_hooks.Filters.ENV_PATCHES.add_item((os.path.basename(path), patch_file.read()))
+        tutor_hooks.Filters.ENV_PATCHES.add_item(
+            (os.path.basename(path), patch_file.read())
+        )

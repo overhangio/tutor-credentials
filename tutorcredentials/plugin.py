@@ -7,6 +7,8 @@ from glob import glob
 import pkg_resources
 from tutor import hooks as tutor_hooks
 from tutor.__about__ import __version_suffix__
+from tutormfe.hooks import MFE_APPS, MFE_ATTRS_TYPE
+from tutormfe.plugin import get_github_refs_path
 
 from .__about__ import __version__
 
@@ -58,6 +60,23 @@ tutor_hooks.Filters.CONFIG_OVERRIDES.add_items(
     list(config.get("overrides", {}).items())
 )
 
+
+########################################
+# MFEs
+########################################
+
+@MFE_APPS.add()
+def _add_learner_record_mfe(apps: dict[str, MFE_ATTRS_TYPE]) -> dict[str, MFE_ATTRS_TYPE]:
+    apps.update(
+        {
+            "learner-record": {
+                "repository": "https://github.com/openedx/frontend-app-learner-record",
+                "refs": get_github_refs_path("openedx/frontend-app-learner-record"),
+                "port": 1990,
+            },
+        }
+    )
+    return apps
 
 ########################################
 # INITIALIZATION TASKS

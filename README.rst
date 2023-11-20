@@ -44,6 +44,16 @@ User can also create superuser for credentials using the below command
 
     tutor local run credentials ./manage.py createsuperuser
 
+Learner Record UI
+-----------------
+
+.. image:: https://github.com/overhangio/tutor-credentials/blob/main/doc/learner-record.png
+    :alt: Learner Record MFE screenshot
+
+This plugin installs and enables the `Learner Record MFE <https://github.com/openedx/frontend-app-learner-record>`__ by default.  It contains views for a learners current status in a program, their current grade, and the ability to share any earned credentials either publically or with institutions.
+
+The learner can access the Learner Record UI from their profile page by clicking the "View My Records" button.
+
 Configuration
 -------------
 
@@ -77,6 +87,13 @@ Application Third party authentication
 
 - ``CREDENTIALS_SOCIAL_AUTH_EDX_OAUTH2_KEY`` (default: ``"credentials-sso-key"``)
 - ``CREDENTIALS_SOCIAL_AUTH_EDX_OAUTH2_SECRET`` (default: ``"credentials-sso-secret"``)
+
+Learner Record UI configuration
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The Learner Record is configurable dynamically via runtime configuration.  To change any of the variables below, go to your LMS's Django admin Site Configuration page (for instance, http://local.overhang.io/admin/site_configuration/siteconfiguration/) and add or modify corresponding JSON dict entries in the appropriate site:
+
+- ``SUPPORT_URL_LEARNER_RECORDS`` (default: ``""``): the URL the learner is taken to when clicking the "read more in our records help area" link.
 
 Funding
 -------

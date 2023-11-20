@@ -1,0 +1,3 @@
+- [Fix] Broken OAUTH2 configuration variables in production. (by @arbrandes)
+- [Fix] Broken development mode. (by @arbrandes)
+- [Feature] Add support for the Learner Record MFE. (by @arbrandes)

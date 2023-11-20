@@ -83,8 +83,8 @@ EMAIL_HOST_USER = "{{ SMTP_USERNAME }}"
 EMAIL_HOST_PASSWORD = "{{ SMTP_PASSWORD }}"
 EMAIL_USE_TLS = {{SMTP_USE_TLS}}
 
-#USE_LEARNER_RECORD_MFE = False
-#LEARNER_RECORD_MFE_RECORDS_PAGE_URL = ""
+USE_LEARNER_RECORD_MFE = True
+ENABLE_VERIFIABLE_CREDENTIALS = False
 
 # reconfigure logging and Get rid of local logger
 LOGGING = get_logger_config(debug=False, dev_env=True, local_loglevel="INFO")

@@ -6,4 +6,3 @@ __version_suffix__ = ""
 
 if __version_suffix__:
     __version__ += "-" + __version_suffix__
-

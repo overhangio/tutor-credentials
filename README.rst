@@ -30,10 +30,19 @@ Usage
     tutor plugins enable discovery mfe credentials
     tutor local launch
 
+For Copying programs that user make in `Discovery plugin <https://github.com/overhangio/tutor-discovery>`__ into Credentials. Run the below command:
+::
+
+    tutor local run credentials ./manage.py copy_catalog
+
 Using Django Admin
 ~~~~~~~~~~~~~~~~~~
 
 The credentials user interface will be available at http://credentials.local.overhang.io for a local instance, and at ``CREDENTIALS_HOST`` (by  default: ``http(s)://credentials.<your lms host>``) in production. In order to run commands from the UI login with an admin user at: http://credentials.local.overhang.io/admin/. User should be able to authenticate with the same username and password that he used for his lms.
+User can also create superuser for credentials using the below command
+::
+
+    tutor local run credentials ./manage.py createsuperuser
 
 Configuration
 -------------
@@ -45,12 +54,11 @@ Application configuration
 - ``CREDENTIALS_MYSQL_DATABASE`` (default: ``"credentials"``)
 - ``CREDENTIALS_MYSQL_USERNAME`` (default: ``"credentials"``)
 - ``CREDENTIALS_MYSQL_PASSWORD`` (default: ``"{{ 8|random_string }}"``)
-- ``CREDENTIALS_CATALOG_API_URL`` (default: ``"{{ LMS_HOST }}"``)
 - ``CREDENTIALS_DOCKER_IMAGE`` (default: ``"{{ DOCKER_REGISTRY }}overhangio/openedx-credentials:{{ CREDENTIALS_VERSION }}"``)
 - ``CREDENTIALS_EXTRA_PIP_REQUIREMENTS`` (default: ``[]``)
-- ``CREDENTIALS_PRIVACY_POLICY_URL``  (default: ``"LMS_HOST/pricacy-policy"``)
 - ``CREDENTIALS_SITE_NAME`` (default: ``"LMS_HOST"``)
-- ``CREDENTIALS_TOS_URL`` (default: ``"{{ LMS_HOST }}/tos"``)
+- ``CREDENTIALS_REPOSITORY`` (default: ``"https://github.com/openedx/credentials.git"``)
+- ``CREDENTIALS_REPOSITORY_VERSION`` (default: ``"{{ OPENEDX_COMMON_VERSION }}"``)
 
 Marketing & Theming
 ~~~~~~~~~~~~~~~~~~~
@@ -94,6 +102,11 @@ Funding
     :target: https://www.academiacentral.org/
 
 This plugin was initially developed and open sourced to the community thanks to the generous support of `Academia Central <https://www.academiacentral.org/>`_. Thank you!
+
+Troubleshooting
+---------------
+
+This Tutor plugin is maintained by Muhammad Faraz Maqsood from `Edly <https://edly.io/>`__. Community support is available from the official `Open edX forum <https://discuss.openedx.org>`__. Do you need help with this plugin? See the `troubleshooting <https://docs.tutor.overhang.io/troubleshooting.html>`__ section from the Tutor documentation.
 
 License
 -------

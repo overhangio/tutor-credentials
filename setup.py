@@ -26,7 +26,7 @@ ABOUT = load_about()
 
 setup(
     name="tutor-credentials",
-    version=ABOUT["__package_version__"],
+    version=ABOUT["__version__"],
     url="https://github.com/overhangio/tutor-credentials.git",
     project_urls={
         "Code": "https://github.com/overhangio/tutor-credentials.git",
@@ -36,6 +36,8 @@ setup(
     license="AGPLv3",
     author="Lawrence McDaniel",
     author_email="lpm0073@gmail.com",
+    maintainer="Edly",
+    maintainer_email="faraz.maqsood@arbisoft.com",
     description="A Tutor plugin for Open edX Credentials service",
     long_description=load_readme(),
     packages=find_packages(exclude=["tests*"]),

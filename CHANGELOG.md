@@ -19,6 +19,13 @@ instructions, because git commits are used to generate release notes:
 
 <!-- scriv-insert-here -->
 
+<a id='changelog-16.0.3'></a>
+## v16.0.3 (2023-11-21)
+
+- [Bugfix] Fix the issue of site was not being created during tutor dev launch. (by @Faraz32123)
+- [Enhancement] Add support for using custom credentials repository using CREDENTIALS_REPOSITORY and CREDENTIALS_REPOSITORY_VERSION. (by @Faraz32123)
+- [Documentation] Add command for creating credentials superuser in the readme. (by @Faraz32123)
+
 <a id='changelog-16.0.2'></a>
 ## v16.0.2 (2023-11-08)
 

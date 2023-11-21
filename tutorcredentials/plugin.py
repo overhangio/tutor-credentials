@@ -49,7 +49,7 @@ tutor_hooks.Filters.CONFIG_DEFAULTS.add_items(
         ("CREDENTIALS_SOCIAL_AUTH_EDX_OAUTH2_KEY", "credentials-sso-key"),
         ("CREDENTIALS_SOCIAL_AUTH_EDX_OAUTH2_LOGOUT_URL", "{{ LMS_HOST }}/logout"),
         ("CREDENTIALS_THEME_NAME", "edx-theme"),
-        ("CREDENTIALS_REPOSITORY", "https://github.com/edx/credentials.git"),
+        ("CREDENTIALS_REPOSITORY", "https://github.com/openedx/credentials.git"),
         ("CREDENTIALS_REPOSITORY_VERSION", "{{ OPENEDX_COMMON_VERSION }}"),
     ]
 )

@@ -52,6 +52,8 @@ config: t.Dict[str, t.Dict[str, t.Any]] = {
         "SOCIAL_AUTH_EDX_OAUTH2_LOGOUT_URL": "{{ LMS_HOST }}/logout",
         "THEME_NAME": "edx-theme",
         "TOS_URL": "{{ LMS_HOST }}/tos",
+        "REPOSITORY": "https://github.com/openedx/credentials.git",
+        "REPOSITORY_VERSION": "{{ OPENEDX_COMMON_VERSION }}",
     },
     "unique": {
         "MYSQL_PASSWORD": "{{ 8|random_string }}",

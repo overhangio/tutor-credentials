@@ -54,6 +54,7 @@ config: t.Dict[str, t.Dict[str, t.Any]] = {
         "TOS_URL": "{{ LMS_HOST }}/tos",
         "REPOSITORY": "https://github.com/openedx/credentials.git",
         "REPOSITORY_VERSION": "{{ OPENEDX_COMMON_VERSION }}",
+        "ATLAS_PULL": False,
     },
     "unique": {
         "MYSQL_PASSWORD": "{{ 8|random_string }}",

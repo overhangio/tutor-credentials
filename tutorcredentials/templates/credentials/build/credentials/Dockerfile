@@ -101,6 +101,12 @@ RUN {% if is_buildkit_enabled() %}--mount=type=cache,target=/openedx/.cache/pip,
 {% for extra_requirement in CREDENTIALS_EXTRA_PIP_REQUIREMENTS %}RUN {% if is_buildkit_enabled() %}--mount=type=cache,target=/openedx/.cache/pip,sharing=shared {% endif %}pip install '{{ extra_requirement }}'
 {% endfor %}
 
+{% if CREDENTIALS_ATLAS_PULL %}
+# Pull translations. Support the OEP-58 proposal behind a feature flag until it's fully implemented.
+RUN atlas pull {{ patch("atlas-extra-args") }} translations/credentials/credentials/conf/locale:credentials/conf/locale
+RUN python manage.py compilemessages
+{% endif %}
+
 ###### Install nodejs with nodeenv in /openedx/nodeenv
 FROM python as nodejs-requirements
 ENV PATH /openedx/nodeenv/bin:/openedx/venv/bin:${PATH}

@@ -1,10 +1,10 @@
 from __future__ import annotations
 
-from glob import glob
 import os
-import pkg_resources
 import typing as t
+from glob import glob
 
+import pkg_resources
 from tutor import hooks as tutor_hooks
 from tutor.__about__ import __version_suffix__
 
@@ -19,70 +19,61 @@ if __version_suffix__:
 # CONFIGURATION
 ########################################
 
+config: t.Dict[str, t.Dict[str, t.Any]] = {
+    "defaults": {
+        "VERSION": __version__,
+        "BACKEND_SERVICE_EDX_OAUTH2_PROVIDER_URL": "http://lms:8000/oauth2",
+        "BACKEND_SERVICE_EDX_OAUTH2_KEY": "{{ CREDENTIALS_OAUTH2_KEY }}",
+        "DOCKER_IMAGE": "{{ DOCKER_REGISTRY }}overhangio/openedx-credentials:{{ CREDENTIALS_VERSION }}",
+        "EXTRA_PIP_REQUIREMENTS": [],
+        "FAVICON_URL": "https://edx-cdn.org/v3/default/favicon.ico",
+        "HOST": "credentials.{{ LMS_HOST }}",
+        "LOGO_TRADEMARK_URL": "https://edx-cdn.org/v3/default/logo-trademark.svg",
+        "LOGO_TRADEMARK_URL_PNG": "https://edx-cdn.org/v3/default/logo-trademark.png",
+        "LOGO_TRADEMARK_URL_SVG": "https://edx-cdn.org/v3/default/logo-trademark.svg",
+        "LOGO_URL": "",
+        "LOGO_URL_PNG": "{{ CREDENTIALS_LOGO_URL }}",
+        "LOGO_URL_SVG": "",
+        "LOGO_WHITE_URL": "{{ CREDENTIALS_LOGO_URL }}",
+        "LOGO_WHITE_URL_PNG": "{{ CREDENTIALS_LOGO_URL }}",
+        "LOGO_WHITE_URL_SVG": "",
+        "MYSQL_DATABASE": "credentials",
+        "MYSQL_USERNAME": "credentials",
+        "OAUTH2_KEY": "credentials-key",
+        "OAUTH2_KEY_DEV": "credentials-key-dev",
+        "OAUTH2_KEY_SSO": "credentials-key-sso",
+        "OAUTH2_KEY_SSO_DEV": "credentials-key-sso-dev",
+        "PLATFORM_NAME": "{{ PLATFORM_NAME }}",
+        "SITE_NAME": "{{ LMS_HOST }}",
+        "SOCIAL_AUTH_REDIRECT_IS_HTTPS": False,
+        "SOCIAL_AUTH_EDX_OAUTH2_ISSUER": "{% if ENABLE_HTTPS %}https{% else %}http{% endif %}://{{ LMS_HOST }}",
+        "SOCIAL_AUTH_EDX_OAUTH2_URL_ROOT": "http://lms:8000",
+        "SOCIAL_AUTH_EDX_OAUTH2_KEY": "credentials-sso-key",
+        "SOCIAL_AUTH_EDX_OAUTH2_LOGOUT_URL": "{{ LMS_HOST }}/logout",
+        "THEME_NAME": "edx-theme",
+        "TOS_URL": "{{ LMS_HOST }}/tos",
+        "REPOSITORY": "https://github.com/openedx/credentials.git",
+        "REPOSITORY_VERSION": "{{ OPENEDX_COMMON_VERSION }}",
+    },
+    "unique": {
+        "MYSQL_PASSWORD": "{{ 8|random_string }}",
+        "SOCIAL_AUTH_EDX_OAUTH2_SECRET": "{{ 16|random_string }}",
+        "BACKEND_SERVICE_EDX_OAUTH2_SECRET": "{{ 16|random_string }}",
+        "OAUTH2_SECRET": "{{ 16|random_string }}",
+        "OAUTH2_SECRET_DEV": "{{ 16|random_string }}",
+        "OAUTH2_SECRET_SSO": "{{ 16|random_string }}",
+        "OAUTH2_SECRET_SSO_DEV": "{{ 16|random_string }}",
+    },
+}
+
 tutor_hooks.Filters.CONFIG_DEFAULTS.add_items(
-    [
-        # Add your new settings that have default values here.
-        # Each new setting is a pair, (setting_name, default_value).
-        # Prefix your setting names with 'CREDENTIALS_'.
-        ("CREDENTIALS_VERSION", __version__),
-        ("CREDENTIALS_BACKEND_SERVICE_EDX_OAUTH2_PROVIDER_URL", "http://lms:8000/oauth2"),
-        ("CREDENTIALS_BACKEND_SERVICE_EDX_OAUTH2_KEY", "{{ CREDENTIALS_OAUTH2_KEY }}"),
-        ("CREDENTIALS_DOCKER_IMAGE", "{{ DOCKER_REGISTRY }}overhangio/openedx-credentials:{{ CREDENTIALS_VERSION }}"),
-        ("CREDENTIALS_EXTRA_PIP_REQUIREMENTS", []),
-        ("CREDENTIALS_FAVICON_URL", "https://edx-cdn.org/v3/default/favicon.ico"),
-        ("CREDENTIALS_HOST", "credentials.{{ LMS_HOST }}"),
-        ("CREDENTIALS_LOGO_TRADEMARK_URL", "https://edx-cdn.org/v3/default/logo-trademark.svg"),
-        ("CREDENTIALS_LOGO_TRADEMARK_URL_PNG", "https://edx-cdn.org/v3/default/logo-trademark.png"),
-        ("CREDENTIALS_LOGO_TRADEMARK_URL_SVG", "https://edx-cdn.org/v3/default/logo-trademark.svg"),
-        ("CREDENTIALS_LOGO_URL", ""),
-        ("CREDENTIALS_LOGO_URL_PNG", "{{ CREDENTIALS_LOGO_URL }}"),
-        ("CREDENTIALS_LOGO_URL_SVG", ""),
-        ("CREDENTIALS_LOGO_WHITE_URL", "{{ CREDENTIALS_LOGO_URL }}"),
-        ("CREDENTIALS_LOGO_WHITE_URL_PNG", "{{ CREDENTIALS_LOGO_URL }}"),
-        ("CREDENTIALS_LOGO_WHITE_URL_SVG", ""),
-        ("CREDENTIALS_MYSQL_DATABASE", "credentials"),
-        ("CREDENTIALS_MYSQL_USERNAME", "credentials"),
-        ("CREDENTIALS_OAUTH2_KEY", "credentials-key"),
-        ("CREDENTIALS_OAUTH2_KEY_DEV", "credentials-key-dev"),
-        ("CREDENTIALS_OAUTH2_KEY_SSO", "credentials-key-sso"),
-        ("CREDENTIALS_OAUTH2_KEY_SSO_DEV", "credentials-key-sso-dev"),
-        ("CREDENTIALS_PLATFORM_NAME", "{{ PLATFORM_NAME }}"),
-        ("CREDENTIALS_SITE_NAME", "{{ LMS_HOST }}"),
-        ("CREDENTIALS_SOCIAL_AUTH_REDIRECT_IS_HTTPS", False),
-        ("CREDENTIALS_SOCIAL_AUTH_EDX_OAUTH2_ISSUER", "https://{{ LMS_HOST }}"),
-        ("CREDENTIALS_SOCIAL_AUTH_EDX_OAUTH2_URL_ROOT", "http://lms:8000"),
-        ("CREDENTIALS_SOCIAL_AUTH_EDX_OAUTH2_KEY", "credentials-sso-key"),
-        ("CREDENTIALS_SOCIAL_AUTH_EDX_OAUTH2_LOGOUT_URL", "{{ LMS_HOST }}/logout"),
-        ("CREDENTIALS_THEME_NAME", "edx-theme"),
-        ("CREDENTIALS_REPOSITORY", "https://github.com/openedx/credentials.git"),
-        ("CREDENTIALS_REPOSITORY_VERSION", "{{ OPENEDX_COMMON_VERSION }}"),
-    ]
+    [(f"CREDENTIALS_{key}", value) for key, value in config.get("defaults", {}).items()]
 )
-
 tutor_hooks.Filters.CONFIG_UNIQUE.add_items(
-    [
-        # Add settings that don't have a reasonable default for all users here.
-        # For instance, passwords, secret keys, etc.
-        # Each new setting is a pair, (setting_name, unique_generated_value).
-        # Prefix your setting names with 'CREDENTIALS_'.
-        # For example:
-        ("CREDENTIALS_MYSQL_PASSWORD", "{{ 8|random_string }}"),
-        ("CREDENTIALS_SOCIAL_AUTH_EDX_OAUTH2_SECRET", "{{ 16|random_string }}"),
-        ("CREDENTIALS_BACKEND_SERVICE_EDX_OAUTH2_SECRET", "{{ 16|random_string }}"),
-        ("CREDENTIALS_OAUTH2_SECRET", "{{ 16|random_string }}"),
-        ("CREDENTIALS_OAUTH2_SECRET_DEV", "{{ 16|random_string }}"),
-        ("CREDENTIALS_OAUTH2_SECRET_SSO", "{{ 16|random_string }}"),
-        ("CREDENTIALS_OAUTH2_SECRET_SSO_DEV", "{{ 16|random_string }}"),
-    ]
+    [(f"CREDENTIALS_{key}", value) for key, value in config.get("unique", {}).items()]
 )
-
 tutor_hooks.Filters.CONFIG_OVERRIDES.add_items(
-    [
-        # Danger zone!
-        # Add values to override settings from Tutor core or other plugins here.
-        # Each override is a pair, (setting_name, new_value). For example:
-        # ("PLATFORM_NAME", "My platform"),
-    ]
+    list(config.get("overrides", {}).items())
 )
 
 
@@ -90,7 +81,6 @@ tutor_hooks.Filters.CONFIG_OVERRIDES.add_items(
 # INITIALIZATION TASKS
 ########################################
 
-# To run the script from templates/credentials/tasks/myservice/init, add:
 MY_INIT_TASKS = [
     ("mysql", ("templates", "credentials", "tasks", "mysql", "init")),
     ("lms", ("templates", "credentials", "tasks", "lms", "init")),
@@ -106,13 +96,16 @@ for service, template_path in MY_INIT_TASKS:
         init_task: str = init_task_file.read()
         tutor_hooks.Filters.CLI_DO_INIT_TASKS.add_item((service, init_task))
 
+
 ########################################
 # Credentials Public Host
 ########################################
 
 
 @tutor_hooks.Filters.APP_PUBLIC_HOSTS.add()
-def _print_credentials_public_hosts(hosts: list[str], context_name: t.Literal["local", "dev"]) -> list[str]:
+def _print_credentials_public_hosts(
+    hosts: list[str], context_name: t.Literal["local", "dev"]
+) -> list[str]:
     if context_name == "dev":
         hosts += ["{{ CREDENTIALS_HOST }}:8150"]
     else:
@@ -129,7 +122,9 @@ REPO_NAME = "credentials"
 
 # Automount /openedx/credentials folder from the container
 @tutor_hooks.Filters.COMPOSE_MOUNTS.add()
-def _mount_credentials_apps(mounts, path_basename):
+def _mount_credentials_apps(
+    mounts: list[tuple[str, str]], path_basename: str
+) -> list[tuple[str, str]]:
     if path_basename == REPO_NAME:
         app_name = REPO_NAME
         mounts += [(app_name, "/openedx/credentials")]
@@ -138,7 +133,9 @@ def _mount_credentials_apps(mounts, path_basename):
 
 # Bind-mount repo at build-time, both for prod and dev images
 @tutor_hooks.Filters.IMAGES_BUILD_MOUNTS.add()
-def _mount_credentials_on_build(mounts: list[tuple[str, str]], host_path: str) -> list[tuple[str, str]]:
+def _mount_credentials_on_build(
+    mounts: list[tuple[str, str]], host_path: str
+) -> list[tuple[str, str]]:
     path_basename = os.path.basename(host_path)
     if path_basename == REPO_NAME:
         app_name = REPO_NAME
@@ -151,7 +148,6 @@ def _mount_credentials_on_build(mounts: list[tuple[str, str]], host_path: str) -
 # DOCKER IMAGE MANAGEMENT
 ########################################
 
-# To build an image with `tutor images build myimage`, add a Dockerfile to templates/credentials/build/myimage and write:
 tutor_hooks.Filters.IMAGES_BUILD.add_item(
     (
         "credentials",
@@ -162,21 +158,8 @@ tutor_hooks.Filters.IMAGES_BUILD.add_item(
 )
 
 
-# To pull/push an image with `tutor images pull myimage` and `tutor images push myimage`, write:
-# tutor_hooks.Filters.IMAGES_PULL.add_item((
-#     "myimage",
-#     "docker.io/myimage:{{ CREDENTIALS_VERSION }}",
-# )
-# tutor_hooks.Filters.IMAGES_PUSH.add_item((
-#     "myimage",
-#     "docker.io/myimage:{{ CREDENTIALS_VERSION }}",
-# )
-
-
 ########################################
 # TEMPLATE RENDERING
-# (It is safe & recommended to leave
-#  this section as-is :)
 ########################################
 
 tutor_hooks.Filters.ENV_TEMPLATE_ROOTS.add_items(
@@ -187,9 +170,6 @@ tutor_hooks.Filters.ENV_TEMPLATE_ROOTS.add_items(
 )
 
 tutor_hooks.Filters.ENV_TEMPLATE_TARGETS.add_items(
-    # For each pair (source_path, destination_path):
-    # templates at ``source_path`` (relative to your ENV_TEMPLATE_ROOTS) will be
-    # rendered to ``destination_path`` (relative to your Tutor environment).
     [
         ("credentials/build", "plugins"),
         ("credentials/apps", "plugins"),
@@ -199,12 +179,8 @@ tutor_hooks.Filters.ENV_TEMPLATE_TARGETS.add_items(
 
 ########################################
 # PATCH LOADING
-# (It is safe & recommended to leave
-#  this section as-is :)
 ########################################
 
-# For each file in tutorcredentials/patches,
-# apply a patch based on the file's name and contents.
 for path in glob(
     os.path.join(
         pkg_resources.resource_filename("tutorcredentials", "patches"),
@@ -212,4 +188,6 @@ for path in glob(
     )
 ):
     with open(path, encoding="utf-8") as patch_file:
-        tutor_hooks.Filters.ENV_PATCHES.add_item((os.path.basename(path), patch_file.read()))
+        tutor_hooks.Filters.ENV_PATCHES.add_item(
+            (os.path.basename(path), patch_file.read())
+        )

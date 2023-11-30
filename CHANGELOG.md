@@ -19,6 +19,17 @@ instructions, because git commits are used to generate release notes:
 
 <!-- scriv-insert-here -->
 
+<a id='changelog-16.1.0'></a>
+## v16.1.0 (2023-11-30)
+
+- [Improvement] Added Typing to code, Makefile and test action to the repository and formatted code with Black and isort. (by @CodeWithEmad)
+
+- [Bugfix] Fix build error due to outdated nodeenv. (by @regisb)
+
+- [Bugfix] Added missing default configs that were missed during merge. (by @Faraz32123)
+
+- 💥[Improvement] Simplify plugin settings. As a consequence, many marketing settings are deprecated. If they were useful to you, you can override them using the "credentials-settings-common" patch. (by @regisb)
+
 <a id='changelog-16.0.3'></a>
 ## v16.0.3 (2023-11-21)
 

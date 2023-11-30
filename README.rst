@@ -56,23 +56,12 @@ Application configuration
 - ``CREDENTIALS_MYSQL_PASSWORD`` (default: ``"{{ 8|random_string }}"``)
 - ``CREDENTIALS_DOCKER_IMAGE`` (default: ``"{{ DOCKER_REGISTRY }}overhangio/openedx-credentials:{{ CREDENTIALS_VERSION }}"``)
 - ``CREDENTIALS_EXTRA_PIP_REQUIREMENTS`` (default: ``[]``)
-- ``CREDENTIALS_SITE_NAME`` (default: ``"LMS_HOST"``)
 - ``CREDENTIALS_REPOSITORY`` (default: ``"https://github.com/openedx/credentials.git"``)
 - ``CREDENTIALS_REPOSITORY_VERSION`` (default: ``"{{ OPENEDX_COMMON_VERSION }}"``)
 
 Marketing & Theming
 ~~~~~~~~~~~~~~~~~~~
 
-- ``CREDENTIALS_LOGO_TRADEMARK_URL`` (default: ``"https://edx-cdn.org/v3/default/logo-trademark.svg"``)
-- ``CREDENTIALS_LOGO_TRADEMARK_URL_PNG`` (default: ``"https://edx-cdn.org/v3/default/logo-trademark.png"``)
-- ``CREDENTIALS_LOGO_TRADEMARK_URL_SVG`` (default: ``"https://edx-cdn.org/v3/default/logo-trademark.svg"``)
-- ``CREDENTIALS_LOGO_URL`` (default: ``"https://edx-cdn.org/v3/default/logo.svg"``)
-- ``CREDENTIALS_LOGO_URL_PNG`` (default: ``"https://edx-cdn.org/v3/default/logo.png"``)
-- ``CREDENTIALS_LOGO_URL_SVG`` (default: ``"https://edx-cdn.org/v3/default/logo.svg"``)
-- ``CREDENTIALS_LOGO_WHITE_URL`` (default: ``"https://edx-cdn.org/v3/default/logo-white.svg"``)
-- ``CREDENTIALS_LOGO_WHITE_URL_PNG`` (default: ``"https://edx-cdn.org/v3/default/logo-white.png"``)
-- ``CREDENTIALS_LOGO_WHITE_URL_SVG`` (default: ``"https://edx-cdn.org/v3/default/logo-white.svg"``)
-- ``CREDENTIALS_FAVICON_URL`` (default: ``"https://edx-cdn.org/v3/default/favicon.ico"``)
 - ``CREDENTIALS_THEME_NAME`` (default: ``"edx-theme"``)
 
 Backend authentication
@@ -80,19 +69,14 @@ Backend authentication
 
 - ``CREDENTIALS_BACKEND_SERVICE_EDX_OAUTH2_KEY`` (default: ``"credentials-backend-service-key"``)
 - ``CREDENTIALS_BACKEND_SERVICE_EDX_OAUTH2_SECRET`` (default: ``"{{ CREDENTIALS_OAUTH2_SECRET }}"``)
-- ``CREDENTIALS_BACKEND_SERVICE_EDX_OAUTH2_PROVIDER_URL`` (default: ``"http://lms:8000/oauth2"``)
 - ``CREDENTIALS_OAUTH2_KEY``  (default: ``credentials-backend-service-key"``)
 - ``CREDENTIALS_OAUTH2_SECRET`` (default: ``"CHANGE-ME"``)
 
 Application Third party authentication
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-- ``CREDENTIALS_SOCIAL_AUTH_REDIRECT_IS_HTTPS`` (default: ``{% if ENABLE_HTTPS %}True{% else %}False{% endif %}``)
-- ``CREDENTIALS_SOCIAL_AUTH_EDX_OAUTH2_ISSUER`` (default: ``"{% if ENABLE_HTTPS %}https{% else %}http{% endif %}://{{ LMS_HOST }}"``)
-- ``CREDENTIALS_SOCIAL_AUTH_EDX_OAUTH2_URL_ROOT`` (default: ``"http://lms:8000"``)
 - ``CREDENTIALS_SOCIAL_AUTH_EDX_OAUTH2_KEY`` (default: ``"credentials-sso-key"``)
 - ``CREDENTIALS_SOCIAL_AUTH_EDX_OAUTH2_SECRET`` (default: ``"credentials-sso-secret"``)
-- ``CREDENTIALS_SOCIAL_AUTH_EDX_OAUTH2_LOGOUT_URL`` (default: ``"{{ SOCIAL_AUTH_EDX_OAUTH2_ISSUER }}/logout"``)
 
 Funding
 -------

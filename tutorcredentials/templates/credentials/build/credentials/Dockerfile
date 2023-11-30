@@ -45,18 +45,6 @@ WORKDIR /openedx/credentials
 
 {{ patch("credentials-dockerfile-post-git-checkout") }}
 
-###### Download extra locales to /openedx/locale/contrib/locale
-# mcdaniel: including these just in case there are implied dependencies
-# on emitted credential data, which would be platform specific obviously.
-FROM minimal as locales
-ARG OPENEDX_I18N_VERSION="{{ OPENEDX_COMMON_VERSION }}"
-RUN cd /tmp \
-    && curl -L -o openedx-i18n.tar.gz https://github.com/openedx/openedx-i18n/archive/$OPENEDX_I18N_VERSION.tar.gz \
-    && tar xzf /tmp/openedx-i18n.tar.gz \
-    && mkdir -p /openedx/locale/contrib \
-    && mv openedx-i18n-*/edx-platform/locale /openedx/locale/contrib \
-    && rm -rf openedx-i18n*
-
 ###### Install python requirements in virtualenv
 FROM python as python-requirements
 ENV PATH /openedx/venv/bin:${PATH}
@@ -64,7 +52,7 @@ ENV VIRTUAL_ENV /openedx/venv/
 
 RUN {% if is_buildkit_enabled() %}--mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,target=/var/lib/apt,sharing=locked {% endif %}apt update \
-    && apt install -y software-properties-common libmysqlclient-dev libxmlsec1-dev libgeos-dev
+    && apt install -y software-properties-common libmysqlclient-dev libxmlsec1-dev
 
 # Note that this means that we need to reinstall all requirements whenever there is a
 # change in credentials, which sucks. But there is no obvious alternative, as we need
@@ -80,8 +68,7 @@ RUN {% if is_buildkit_enabled() %}--mount=type=cache,target=/openedx/.cache/pip,
     setuptools==67.7.2 pip==23.1.2. wheel==0.40.0
 
 # Install base requirements
-RUN {% if is_buildkit_enabled() %}--mount=type=cache,target=/openedx/.cache/pip,sharing=shared {% endif %}pip install -r requirements/pip_tools.txt
-RUN {% if is_buildkit_enabled() %}--mount=type=cache,target=/openedx/.cache/pip,sharing=shared {% endif %}pip install -r requirements.txt
+RUN {% if is_buildkit_enabled() %}--mount=type=cache,target=/openedx/.cache/pip,sharing=shared {% endif %}pip install -r requirements/production.txt
 
 # Install extra requirements
 RUN {% if is_buildkit_enabled() %}--mount=type=cache,target=/openedx/.cache/pip,sharing=shared {% endif %}pip install \
@@ -91,12 +78,6 @@ RUN {% if is_buildkit_enabled() %}--mount=type=cache,target=/openedx/.cache/pip,
     uwsgi==2.0.21
 
 {{ patch("credentials-dockerfile-post-python-requirements") }}
-
-# Install private requirements: this is useful for installing custom xblocks.
-COPY ./requirements/ /openedx/requirements
-RUN {% if is_buildkit_enabled() %}--mount=type=cache,target=/openedx/.cache/pip,sharing=shared {% endif %}cd /openedx/requirements/ \
-  && touch ./private.txt \
-  && pip install -r ./private.txt
 
 {% for extra_requirement in CREDENTIALS_EXTRA_PIP_REQUIREMENTS %}RUN {% if is_buildkit_enabled() %}--mount=type=cache,target=/openedx/.cache/pip,sharing=shared {% endif %}pip install '{{ extra_requirement }}'
 {% endfor %}
@@ -120,11 +101,9 @@ RUN {% if is_buildkit_enabled() %}--mount=type=cache,target=/openedx/.npm/,shari
 FROM minimal as production
 
 # Install system requirements
-# mcdaniel: these are the edx-platform system requirements.
-# TO DO: remove any packages that are not needed for Credentials.
 RUN {% if is_buildkit_enabled() %}--mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,target=/var/lib/apt,sharing=locked {% endif %}apt update \
-    && apt install -y gettext gfortran graphviz graphviz-dev libffi-dev libfreetype6-dev libgeos-dev libjpeg8-dev liblapack-dev libmysqlclient-dev libpng-dev libsqlite3-dev libxmlsec1-dev lynx mysql-client ntp pkg-config rdfind
+    && apt install -y libxml2 libmysqlclient-dev mime-support
 
 # From then on, run as unprivileged "app" user
 ARG APP_USER_ID=1000
@@ -134,10 +113,8 @@ USER ${APP_USER_ID}
 
 # change file ownership to the new app user
 COPY --chown=app:app --from=code /openedx/credentials /openedx/credentials
-COPY --chown=app:app --from=locales /openedx/locale /openedx/locale
 COPY --chown=app:app --from=python /opt/pyenv /opt/pyenv
 COPY --chown=app:app --from=python-requirements /openedx/venv /openedx/venv
-COPY --chown=app:app --from=python-requirements /openedx/requirements /openedx/requirements
 COPY --chown=app:app --from=nodejs-requirements /openedx/nodeenv /openedx/nodeenv
 COPY --chown=app:app --from=nodejs-requirements /openedx/credentials/node_modules /openedx/node_modules
 
@@ -147,9 +124,6 @@ RUN ln -s /openedx/node_modules /openedx/credentials/node_modules
 ENV PATH /openedx/venv/bin:./node_modules/.bin:/openedx/nodeenv/bin:${PATH}
 ENV VIRTUAL_ENV /openedx/venv/
 WORKDIR /openedx/credentials
-
-# Re-install local requirements, otherwise egg-info folders are missing
-RUN pip install -r requirements/production.in
 
 # Setup minimal yml config file, which is required by production settings
 RUN echo "{}" > /openedx/config.yml

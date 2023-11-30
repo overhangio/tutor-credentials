@@ -69,7 +69,7 @@ def _add_learner_record_mfe(apps: dict[str, MFE_ATTRS_TYPE]) -> dict[str, MFE_AT
     apps.update(
         {
             "learner-record": {
-                "repository": "https://github.com/openedx/frontend-app-learner-record",
+                "repository": "https://github.com/openedx/frontend-app-learner-record.git",
                 "port": 1990,
             },
         }

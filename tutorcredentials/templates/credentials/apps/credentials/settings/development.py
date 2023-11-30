@@ -2,7 +2,8 @@ from credentials.settings.devstack import * # pylint: disable=wildcard-import, u
 
 {% include "credentials/apps/credentials/settings/partials/common.py" %}
 
-SOCIAL_AUTH_EDX_OAUTH2_PUBLIC_URL_ROOT = "{% if ENABLE_HTTPS %}https{% else %}http{% endif %}://{{ LMS_HOST }}:8000"
+SOCIAL_AUTH_EDX_OAUTH2_PUBLIC_URL_ROOT = "http://{{ LMS_HOST }}:8000"
+FAVICON_URL = "http://{{ LMS_HOST }}:8000/favicon.ico"
 
 BACKEND_SERVICE_EDX_OAUTH2_KEY = "{{ CREDENTIALS_OAUTH2_KEY }}"
 

@@ -1,7 +1,7 @@
-Credentials plugin for `Tutor <https://docs.tutor.overhang.io>`__
+Credentials plugin for `Tutor <https://docs.tutor.edly.io>`__
 ===================================================================================
 
-This is a plugin for `Tutor <https://docs.tutor.overhang.io>`_ that integrates the `Credentials <https://github.com/openedx/credentials/>`__ application in an Open edX platform.
+This is a plugin for `Tutor <https://docs.tutor.edly.io>`_ that integrates the `Credentials <https://github.com/openedx/credentials/>`__ application in an Open edX platform.
 Credentials application supports course and program certificates. This plugin offers an admin panel where user can do configurations for the certificates of his course and program.
 
 Note that user will have to create the course/program using `Discovery plugin <https://github.com/overhangio/tutor-discovery>`__. Then Credentials plugin will be used for certificates configurations.
@@ -16,7 +16,7 @@ Installation
 
     pip install https://github.com/overhangio/tutor-credentials.git
 
-Note that this plugin is compatible with `Kubernetes integration <http://docs.tutor.overhang.io/k8s.html>`__.
+Note that this plugin is compatible with `Kubernetes integration <http://docs.tutor.edly.io/k8s.html>`__.
 
 
 For further instructions on how to setup Credentials with Open edX, check the `Official Credentials documentation <https://readthedocs.org/projects/edx-credentials/>`__.
@@ -90,7 +90,7 @@ This plugin was initially developed and open sourced to the community thanks to 
 Troubleshooting
 ---------------
 
-This Tutor plugin is maintained by Muhammad Faraz Maqsood from `Edly <https://edly.io/>`__. Community support is available from the official `Open edX forum <https://discuss.openedx.org>`__. Do you need help with this plugin? See the `troubleshooting <https://docs.tutor.overhang.io/troubleshooting.html>`__ section from the Tutor documentation.
+This Tutor plugin is maintained by Muhammad Faraz Maqsood from `Edly <https://edly.io/>`__. Community support is available from the official `Open edX forum <https://discuss.openedx.org>`__. Do you need help with this plugin? See the `troubleshooting <https://docs.tutor.edly.io/troubleshooting.html>`__ section from the Tutor documentation.
 
 License
 -------

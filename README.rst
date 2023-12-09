@@ -38,7 +38,7 @@ For Copying programs that user make in `Discovery plugin <https://github.com/ove
 Using Django Admin
 ~~~~~~~~~~~~~~~~~~
 
-The credentials user interface will be available at http://credentials.local.overhang.io for a local instance, and at ``CREDENTIALS_HOST`` (by  default: ``http(s)://credentials.<your lms host>``) in production. In order to run commands from the UI login with an admin user at: http://credentials.local.overhang.io/admin/. User should be able to authenticate with the same username and password that he used for his lms.
+The credentials user interface will be available at http://credentials.local.edly.io for a local instance, and at ``CREDENTIALS_HOST`` (by  default: ``http(s)://credentials.<your lms host>``) in production. In order to run commands from the UI login with an admin user at: http://credentials.local.edly.io/admin/. User should be able to authenticate with the same username and password that he used for his lms.
 User can also create superuser for credentials using the below command
 ::
 
@@ -91,7 +91,7 @@ Application Third party authentication
 Learner Record UI configuration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The Learner Record is configurable dynamically via runtime configuration.  To change any of the variables below, go to your LMS's Django admin Site Configuration page (for instance, http://local.overhang.io/admin/site_configuration/siteconfiguration/) and add or modify corresponding JSON dict entries in the appropriate site:
+The Learner Record is configurable dynamically via runtime configuration.  To change any of the variables below, go to your LMS's Django admin Site Configuration page (for instance, http://local.edly.io/admin/site_configuration/siteconfiguration/) and add or modify corresponding JSON dict entries in the appropriate site:
 
 - ``SUPPORT_URL_LEARNER_RECORDS`` (default: ``""``): the URL the learner is taken to when clicking the "read more in our records help area" link.
 

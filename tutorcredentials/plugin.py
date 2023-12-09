@@ -71,7 +71,6 @@ def _add_learner_record_mfe(apps: dict[str, MFE_ATTRS_TYPE]) -> dict[str, MFE_AT
         {
             "learner-record": {
                 "repository": "https://github.com/openedx/frontend-app-learner-record",
-                "refs": get_github_refs_path("openedx/frontend-app-learner-record"),
                 "port": 1990,
             },
         }

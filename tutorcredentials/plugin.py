@@ -8,7 +8,6 @@ import pkg_resources
 from tutor import hooks as tutor_hooks
 from tutor.__about__ import __version_suffix__
 from tutormfe.hooks import MFE_APPS, MFE_ATTRS_TYPE
-from tutormfe.plugin import get_github_refs_path
 
 from .__about__ import __version__
 

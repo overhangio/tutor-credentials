@@ -7,7 +7,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,target=/var/lib/apt,sharing=locked \
     apt update && \
-    apt install -y build-essential curl git language-pack-en
+    apt install -y build-essential curl git language-pack-en gettext
 
 ENV LC_ALL en_US.UTF-8
 {{ patch("credentials-dockerfile-minimal") }}
@@ -124,6 +124,9 @@ RUN ln -s /openedx/node_modules /openedx/credentials/node_modules
 ENV PATH /openedx/venv/bin:./node_modules/.bin:/openedx/nodeenv/bin:${PATH}
 ENV VIRTUAL_ENV /openedx/venv/
 WORKDIR /openedx/credentials
+
+RUN atlas pull --repository="{{ ATLAS_REPOSITORY }}" --branch="{{ ATLAS_REVISION }}" {{ ATLAS_OPTIONS }} translations/credentials/credentials/conf/locale:credentials/conf/locale
+RUN python manage.py compilemessages
 
 # Setup minimal yml config file, which is required by production settings
 RUN echo "{}" > /openedx/config.yml

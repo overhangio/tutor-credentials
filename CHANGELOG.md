@@ -19,6 +19,11 @@ instructions, because git commits are used to generate release notes:
 
 <!-- scriv-insert-here -->
 
+<a id='changelog-17.0.1'></a>
+## v17.0.1 (2024-01-23)
+
+- [Bugfix] Fix initialization tasks in production. (by @Danyal-Faheem)
+
 <a id='changelog-17.0.0'></a>
 ## v17.0.0 (2023-12-09)
 

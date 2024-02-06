@@ -4,7 +4,7 @@ import os
 import typing as t
 from glob import glob
 
-import pkg_resources
+import importlib_resources
 from tutor import hooks as tutor_hooks
 from tutor.__about__ import __version_suffix__
 from tutormfe.hooks import MFE_APPS, MFE_ATTRS_TYPE
@@ -64,8 +64,11 @@ tutor_hooks.Filters.CONFIG_OVERRIDES.add_items(
 # MFEs
 ########################################
 
+
 @MFE_APPS.add()
-def _add_learner_record_mfe(apps: dict[str, MFE_ATTRS_TYPE]) -> dict[str, MFE_ATTRS_TYPE]:
+def _add_learner_record_mfe(
+    apps: dict[str, MFE_ATTRS_TYPE]
+) -> dict[str, MFE_ATTRS_TYPE]:
     apps.update(
         {
             "learner-record": {
@@ -76,20 +79,28 @@ def _add_learner_record_mfe(apps: dict[str, MFE_ATTRS_TYPE]) -> dict[str, MFE_AT
     )
     return apps
 
+
 ########################################
 # INITIALIZATION TASKS
 ########################################
 
 MY_INIT_TASKS = [
-    ("mysql", ("templates", "credentials", "tasks", "mysql", "init")),
-    ("lms", ("templates", "credentials", "tasks", "lms", "init")),
-    ("credentials", ("templates", "credentials", "tasks", "credentials", "init")),
-    ("mysql", ("templates", "credentials", "tasks", "mysql", "sync_users")),
+    ("mysql", "init"),
+    ("lms", "init"),
+    ("credentials", "init"),
+    ("mysql", "sync_users"),
 ]
 
 HERE = os.path.abspath(os.path.dirname(__file__))
-for service, template_path in MY_INIT_TASKS:
-    full_path: str = os.path.join(HERE, *template_path)
+for service, template_name in MY_INIT_TASKS:
+    full_path: str = str(
+        importlib_resources.files("tutorcredentials")
+        / "templates"
+        / "credentials"
+        / "tasks"
+        / service
+        / template_name
+    )
 
     with open(full_path, encoding="utf-8") as init_task_file:
         init_task: str = init_task_file.read()
@@ -161,11 +172,9 @@ tutor_hooks.Filters.IMAGES_BUILD.add_item(
 # TEMPLATE RENDERING
 ########################################
 
-tutor_hooks.Filters.ENV_TEMPLATE_ROOTS.add_items(
-    # Root paths for template files, relative to the project root.
-    [
-        pkg_resources.resource_filename("tutorcredentials", "templates"),
-    ]
+tutor_hooks.Filters.ENV_TEMPLATE_ROOTS.add_item(
+    # Root path for template files, relative to the project root.
+    str(importlib_resources.files("tutorcredentials") / "templates")
 )
 
 tutor_hooks.Filters.ENV_TEMPLATE_TARGETS.add_items(
@@ -180,12 +189,7 @@ tutor_hooks.Filters.ENV_TEMPLATE_TARGETS.add_items(
 # PATCH LOADING
 ########################################
 
-for path in glob(
-    os.path.join(
-        pkg_resources.resource_filename("tutorcredentials", "patches"),
-        "*",
-    )
-):
+for path in glob(str(importlib_resources.files("tutorcredentials") / "patches" / "*")):
     with open(path, encoding="utf-8") as patch_file:
         tutor_hooks.Filters.ENV_PATCHES.add_item(
             (os.path.basename(path), patch_file.read())

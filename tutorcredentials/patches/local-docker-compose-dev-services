@@ -9,6 +9,9 @@ credentials:
   volumes:
     # editable requirements
     - ../plugins/credentials/build/credentials/requirements:/openedx/requirements
+    {%- for mount in iter_mounts(MOUNTS, "credentials") %}
+    - {{ mount }}
+    {%- endfor %}
   networks:
     default:
       aliases:

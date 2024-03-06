@@ -1,12 +1,12 @@
 Credentials plugin for `Tutor <https://docs.tutor.edly.io>`__
-===================================================================================
+=============================================================
 
 This is a plugin for `Tutor <https://docs.tutor.edly.io>`_ that integrates the `Credentials <https://github.com/openedx/credentials/>`__ application in an Open edX platform.
 Credentials application supports course and program certificates. This plugin offers an admin panel where user can do configurations for the certificates of his course and program.
 
 Note that user will have to create the course/program using `Discovery plugin <https://github.com/overhangio/tutor-discovery>`__. Then Credentials plugin will be used for certificates configurations.
 
-.. image:: https://github.com/overhangio/tutor-credentials/blob/main/doc/django-admin-screen-shot.png
+.. image:: https://github.com/overhangio/tutor-credentials/blob/master/doc/django-admin-screen-shot.png
     :alt: Django Admin
 
 Installation
@@ -47,7 +47,7 @@ User can also create superuser for credentials using the below command
 Learner Record UI
 -----------------
 
-.. image:: https://github.com/overhangio/tutor-credentials/blob/main/doc/learner-record.png
+.. image:: https://github.com/overhangio/tutor-credentials/blob/master/doc/learner-record.png
     :alt: Learner Record MFE screenshot
 
 This plugin installs and enables the `Learner Record MFE <https://github.com/openedx/frontend-app-learner-record>`__ by default.  It contains views for a learners current status in a program, their current grade, and the ability to share any earned credentials either publically or with institutions.
@@ -75,7 +75,7 @@ Marketing & Theming
 - ``CREDENTIALS_THEME_NAME`` (default: ``"edx-theme"``)
 
 Backend authentication
-~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~
 
 - ``CREDENTIALS_BACKEND_SERVICE_EDX_OAUTH2_KEY`` (default: ``"credentials-backend-service-key"``)
 - ``CREDENTIALS_BACKEND_SERVICE_EDX_OAUTH2_SECRET`` (default: ``"{{ CREDENTIALS_OAUTH2_SECRET }}"``)

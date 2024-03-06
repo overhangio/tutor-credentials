@@ -112,4 +112,4 @@ This Tutor plugin is maintained by Muhammad Faraz Maqsood from `Edly <https://ed
 License
 -------
 
-This software is licensed under the terms of the AGPLv3.
+This software is licensed under the terms of the `GNU Affero General Public License (AGPL) <https://github.com/overhangio/tutor-credentials/blob/master/LICENSE.txt>`_.

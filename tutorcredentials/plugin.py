@@ -37,6 +37,7 @@ config: t.Dict[str, t.Dict[str, t.Any]] = {
         "THEME_NAME": "edx-theme",
         "REPOSITORY": "https://github.com/openedx/credentials.git",
         "REPOSITORY_VERSION": "{{ OPENEDX_COMMON_VERSION }}",
+        "SERVICE_USERNAME": "credentials",
     },
     "unique": {
         "MYSQL_PASSWORD": "{{ 8|random_string }}",

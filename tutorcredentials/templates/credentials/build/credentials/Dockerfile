@@ -1,7 +1,6 @@
 # syntax=docker/dockerfile:1
 ###### Minimal image with base system requirements for most stages
 FROM docker.io/ubuntu:20.04 as minimal
-LABEL maintainer="Lawrence McDaniel <lpm0073@gmail.com>"
 
 ENV DEBIAN_FRONTEND=noninteractive
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \

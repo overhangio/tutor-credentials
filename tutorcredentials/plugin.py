@@ -167,6 +167,18 @@ tutor_hooks.Filters.IMAGES_BUILD.add_item(
         (),
     )
 )
+tutor_hooks.Filters.IMAGES_PULL.add_item(
+    (
+        "credentials",
+        "{{ CREDENTIALS_DOCKER_IMAGE }}",
+    )
+)
+tutor_hooks.Filters.IMAGES_PUSH.add_item(
+    (
+        "credentials",
+        "{{ CREDENTIALS_DOCKER_IMAGE }}",
+    )
+)
 
 
 ########################################

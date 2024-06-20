@@ -1,13 +1,12 @@
 # syntax=docker/dockerfile:1
 ###### Minimal image with base system requirements for most stages
 FROM docker.io/ubuntu:20.04 as minimal
-LABEL maintainer="Lawrence McDaniel <lpm0073@gmail.com>"
 
 ENV DEBIAN_FRONTEND=noninteractive
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,target=/var/lib/apt,sharing=locked \
     apt update && \
-    apt install -y build-essential curl git language-pack-en
+    apt install -y build-essential curl git language-pack-en gettext
 
 ENV LC_ALL en_US.UTF-8
 {{ patch("credentials-dockerfile-minimal") }}
@@ -25,9 +24,9 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 # Install pyenv
 # https://www.python.org/downloads/
 # https://github.com/pyenv/pyenv/releases
-ARG PYTHON_VERSION=3.8.18
+ARG PYTHON_VERSION=3.11.9
 ENV PYENV_ROOT /opt/pyenv
-RUN git clone https://github.com/pyenv/pyenv $PYENV_ROOT --branch v2.3.29 --depth 1
+RUN git clone https://github.com/pyenv/pyenv $PYENV_ROOT --branch v2.4.0 --depth 1
 
 # Install Python
 RUN $PYENV_ROOT/bin/pyenv install $PYTHON_VERSION
@@ -39,8 +38,8 @@ RUN $PYENV_ROOT/versions/$PYTHON_VERSION/bin/python -m venv /openedx/venv
 FROM minimal as code
 ARG CREDENTIALS_REPOSITORY="{{ CREDENTIALS_REPOSITORY }}"
 ARG CREDENTIALS_VERSION="{{ CREDENTIALS_REPOSITORY_VERSION }}"
-RUN mkdir -p /openedx/credentials
-ADD --keep-git-dir=true $CREDENTIALS_REPOSITORY#$CREDENTIALS_VERSION /openedx/credentials
+RUN mkdir -p /openedx/credentials && \
+    git clone $CREDENTIALS_REPOSITORY --branch $CREDENTIALS_VERSION --depth 1 /openedx/credentials
 WORKDIR /openedx/credentials
 
 {{ patch("credentials-dockerfile-post-git-checkout") }}
@@ -65,7 +64,7 @@ RUN --mount=type=cache,target=/openedx/.cache/pip,sharing=shared pip install \
     # https://pypi.org/project/setuptools/
     # https://pypi.org/project/pip/
     # https://pypi.org/project/wheel/
-    setuptools==68.2.2 pip==23.2.1. wheel==0.41.2
+    setuptools==69.1.1 pip==24.0 wheel==0.43.0
 
 # Install base requirements
 RUN --mount=type=cache,target=/openedx/.cache/pip,sharing=shared pip install -r requirements/production.txt
@@ -75,7 +74,7 @@ RUN --mount=type=cache,target=/openedx/.cache/pip,sharing=shared pip install \
     # Use redis as a django cache https://pypi.org/project/django-redis/
     django-redis==5.4.0 \
     # uwsgi server https://pypi.org/project/uWSGI/
-    uwsgi==2.0.22
+    uwsgi==2.0.24
 
 {{ patch("credentials-dockerfile-post-python-requirements") }}
 
@@ -89,7 +88,7 @@ ENV PATH /openedx/nodeenv/bin:/openedx/venv/bin:${PATH}
 # Install nodeenv with the version provided by credentials
 # https://github.com/ekalinin/nodeenv/releases
 RUN pip install nodeenv==1.8.0
-RUN nodeenv /openedx/nodeenv --node=16.14.0 --prebuilt
+RUN nodeenv /openedx/nodeenv --node=16.14.2 --prebuilt
 
 # Install nodejs requirements
 ARG NPM_REGISTRY='{{ NPM_REGISTRY }}'
@@ -124,6 +123,9 @@ RUN ln -s /openedx/node_modules /openedx/credentials/node_modules
 ENV PATH /openedx/venv/bin:./node_modules/.bin:/openedx/nodeenv/bin:${PATH}
 ENV VIRTUAL_ENV /openedx/venv/
 WORKDIR /openedx/credentials
+
+RUN atlas pull --repository="{{ ATLAS_REPOSITORY }}" --branch="{{ ATLAS_REVISION }}" {{ ATLAS_OPTIONS }} translations/credentials/credentials/conf/locale:credentials/conf/locale
+RUN python manage.py compilemessages
 
 # Setup minimal yml config file, which is required by production settings
 RUN echo "{}" > /openedx/config.yml

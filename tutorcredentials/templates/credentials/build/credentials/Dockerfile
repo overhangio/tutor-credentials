@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 ###### Minimal image with base system requirements for most stages
-FROM docker.io/ubuntu:20.04 as minimal
+FROM docker.io/ubuntu:20.04 AS minimal
 
 ENV DEBIAN_FRONTEND=noninteractive
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
@@ -8,12 +8,12 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     apt update && \
     apt install -y build-essential curl git language-pack-en gettext
 
-ENV LC_ALL en_US.UTF-8
+ENV LC_ALL=en_US.UTF-8
 {{ patch("credentials-dockerfile-minimal") }}
 
 
 ###### Install python with pyenv in /opt/pyenv and create virtualenv in /openedx/venv
-FROM minimal as python
+FROM minimal AS python
 # https://github.com/pyenv/pyenv/wiki/Common-build-problems#prerequisites
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,target=/var/lib/apt,sharing=locked apt update && \
@@ -25,7 +25,7 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 # https://www.python.org/downloads/
 # https://github.com/pyenv/pyenv/releases
 ARG PYTHON_VERSION=3.11.9
-ENV PYENV_ROOT /opt/pyenv
+ENV PYENV_ROOT=/opt/pyenv
 RUN git clone https://github.com/pyenv/pyenv $PYENV_ROOT --branch v2.4.0 --depth 1
 
 # Install Python
@@ -35,7 +35,7 @@ RUN $PYENV_ROOT/bin/pyenv install $PYTHON_VERSION
 RUN $PYENV_ROOT/versions/$PYTHON_VERSION/bin/python -m venv /openedx/venv
 
 ###### Checkout credentials
-FROM minimal as code
+FROM minimal AS code
 ARG CREDENTIALS_REPOSITORY="{{ CREDENTIALS_REPOSITORY }}"
 ARG CREDENTIALS_VERSION="{{ CREDENTIALS_REPOSITORY_VERSION }}"
 RUN mkdir -p /openedx/credentials && \
@@ -45,9 +45,9 @@ WORKDIR /openedx/credentials
 {{ patch("credentials-dockerfile-post-git-checkout") }}
 
 ###### Install python requirements in virtualenv
-FROM python as python-requirements
-ENV PATH /openedx/venv/bin:${PATH}
-ENV VIRTUAL_ENV /openedx/venv/
+FROM python AS python-requirements
+ENV PATH=/openedx/venv/bin:${PATH}
+ENV VIRTUAL_ENV=/openedx/venv/
 
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,target=/var/lib/apt,sharing=locked apt update \
@@ -82,8 +82,8 @@ RUN --mount=type=cache,target=/openedx/.cache/pip,sharing=shared pip install \
 {% endfor %}
 
 ###### Install nodejs with nodeenv in /openedx/nodeenv
-FROM python as nodejs-requirements
-ENV PATH /openedx/nodeenv/bin:/openedx/venv/bin:${PATH}
+FROM python AS nodejs-requirements
+ENV PATH=/openedx/nodeenv/bin:/openedx/venv/bin:${PATH}
 
 # Install nodeenv with the version provided by credentials
 # https://github.com/ekalinin/nodeenv/releases
@@ -97,7 +97,7 @@ WORKDIR /openedx/credentials
 RUN --mount=type=cache,target=/openedx/.npm/,sharing=shared npm install --verbose --registry=$NPM_REGISTRY
 
 ###### Production image with system and python requirements
-FROM minimal as production
+FROM minimal AS production
 
 # Install system requirements
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
@@ -120,8 +120,8 @@ COPY --chown=app:app --from=nodejs-requirements /openedx/credentials/node_module
 # Symlink node_modules such that we can bind-mount the credentials repository
 RUN ln -s /openedx/node_modules /openedx/credentials/node_modules
 
-ENV PATH /openedx/venv/bin:./node_modules/.bin:/openedx/nodeenv/bin:${PATH}
-ENV VIRTUAL_ENV /openedx/venv/
+ENV PATH=/openedx/venv/bin:./node_modules/.bin:/openedx/nodeenv/bin:${PATH}
+ENV VIRTUAL_ENV=/openedx/venv/
 WORKDIR /openedx/credentials
 
 RUN atlas pull --repository="{{ ATLAS_REPOSITORY }}" --branch="{{ ATLAS_REVISION }}" {{ ATLAS_OPTIONS }} translations/credentials/credentials/conf/locale:credentials/conf/locale
@@ -129,18 +129,18 @@ RUN python manage.py compilemessages
 
 # Setup minimal yml config file, which is required by production settings
 RUN echo "{}" > /openedx/config.yml
-ENV CREDENTIALS_CFG /openedx/config.yml
+ENV CREDENTIALS_CFG=/openedx/config.yml
 
 {{ patch("credentials-dockerfile-pre-assets") }}
 
 # Collect static assets
 COPY --chown=app:app assets.py ./credentials/settings/assets.py
-ENV DJANGO_SETTINGS_MODULE credentials.settings.assets
+ENV DJANGO_SETTINGS_MODULE=credentials.settings.assets
 RUN python3 manage.py compilejsi18n
 RUN node_modules/.bin/webpack --config webpack.config.js
 RUN python3 manage.py collectstatic --noinput
 
-ENV DJANGO_SETTINGS_MODULE credentials.settings.tutor.production
+ENV DJANGO_SETTINGS_MODULE=credentials.settings.tutor.production
 
 # Create a data directory, which might be used (or not)
 RUN mkdir /openedx/data
@@ -150,7 +150,7 @@ RUN mkdir /openedx/data
 EXPOSE 8000
 
 ###### Final image with production cmd
-FROM production as final
+FROM production AS final
 
 CMD uwsgi \
     --static-map /static=/openedx/credentials/credentials/assets \

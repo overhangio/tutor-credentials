@@ -1,12 +1,14 @@
 # syntax=docker/dockerfile:1
 ###### Minimal image with base system requirements for most stages
-FROM docker.io/ubuntu:20.04 AS minimal
+FROM docker.io/python:3.11-slim-bookworm AS minimal
 
 ENV DEBIAN_FRONTEND=noninteractive
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,target=/var/lib/apt,sharing=locked \
     apt update && \
-    apt install -y build-essential curl git language-pack-en gettext
+    apt install -y build-essential git locales pkg-config gettext && \
+    sed -i '/en_US.UTF-8/s/^# //g' /etc/locale.gen && \
+    locale-gen
 
 ENV LC_ALL=en_US.UTF-8
 {{ patch("credentials-dockerfile-minimal") }}
@@ -17,22 +19,12 @@ FROM minimal AS python
 # https://github.com/pyenv/pyenv/wiki/Common-build-problems#prerequisites
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,target=/var/lib/apt,sharing=locked apt update && \
-    apt install -y libssl-dev zlib1g-dev libbz2-dev \
-    libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev \
-    xz-utils tk-dev libffi-dev liblzma-dev python-openssl git
-
-# Install pyenv
-# https://www.python.org/downloads/
-# https://github.com/pyenv/pyenv/releases
-ARG PYTHON_VERSION=3.11.9
-ENV PYENV_ROOT=/opt/pyenv
-RUN git clone https://github.com/pyenv/pyenv $PYENV_ROOT --branch v2.4.0 --depth 1
-
-# Install Python
-RUN $PYENV_ROOT/bin/pyenv install $PYTHON_VERSION
+    apt install -y python3-dev \
+    llvm libncurses5-dev \
+    python3-openssl
 
 # Create virtualenv
-RUN $PYENV_ROOT/versions/$PYTHON_VERSION/bin/python -m venv /openedx/venv
+RUN python -m venv /openedx/venv
 
 ###### Checkout credentials
 FROM minimal AS code
@@ -51,7 +43,7 @@ ENV VIRTUAL_ENV=/openedx/venv/
 
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,target=/var/lib/apt,sharing=locked apt update \
-    && apt install -y software-properties-common libmysqlclient-dev libxmlsec1-dev
+    && apt install -y software-properties-common default-libmysqlclient-dev libxmlsec1-dev
 
 # Note that this means that we need to reinstall all requirements whenever there is a
 # change in credentials, which sucks. But there is no obvious alternative, as we need
@@ -102,7 +94,7 @@ FROM minimal AS production
 # Install system requirements
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,target=/var/lib/apt,sharing=locked apt update \
-    && apt install -y libxml2 libmysqlclient-dev mime-support
+    && apt install -y libxml2 default-libmysqlclient-dev mime-support
 
 # From then on, run as unprivileged "app" user
 ARG APP_USER_ID=1000
@@ -112,7 +104,6 @@ USER ${APP_USER_ID}
 
 # change file ownership to the new app user
 COPY --chown=app:app --from=code /openedx/credentials /openedx/credentials
-COPY --chown=app:app --from=python /opt/pyenv /opt/pyenv
 COPY --chown=app:app --from=python-requirements /openedx/venv /openedx/venv
 COPY --chown=app:app --from=nodejs-requirements /openedx/nodeenv /openedx/nodeenv
 COPY --chown=app:app --from=nodejs-requirements /openedx/credentials/node_modules /openedx/node_modules

@@ -3,8 +3,7 @@ variables:
     TUTOR_IMAGES: credentials
     TUTOR_PYPI_PACKAGE: tutor-credentials
     GITHUB_REPO: overhangio/tutor-credentials
-    TUTOR_EXTRA_ENABLED_PLUGINS: discovery mfe
-    IMAGES_BUILD_PLATFORM: "linux/amd64"
+    TUTOR_EXTRA_ENABLED_PLUGINS: discovery mfe 
 
 include:
   - project: 'community/tutor-ci'

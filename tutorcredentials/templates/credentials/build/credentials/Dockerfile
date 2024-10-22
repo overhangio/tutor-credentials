@@ -167,6 +167,6 @@ CMD ["uwsgi", \
     "--thunder-lock", \
     "--single-interpreter", \
     "--enable-threads", \
-    "--processes=${UWSGI_WORKERS:-2}", \
+    "--processes=2", \ 
     "--buffer-size=8192", \
     "--wsgi-file", "credentials/wsgi.py"]

@@ -6,7 +6,7 @@ Credentials application supports course and program certificates. This plugin of
 
 Note that user will have to create the course/program using `Discovery plugin <https://github.com/overhangio/tutor-discovery>`__. Then Credentials plugin will be used for certificates configurations.
 
-.. image:: https://github.com/overhangio/tutor-credentials/blob/master/doc/django-admin-screen-shot.png
+.. image:: https://github.com/overhangio/tutor-credentials/blob/release/doc/django-admin-screen-shot.png
     :alt: Django Admin
 
 Installation
@@ -47,7 +47,7 @@ User can also create superuser for credentials using the below command
 Learner Record UI
 -----------------
 
-.. image:: https://github.com/overhangio/tutor-credentials/blob/master/doc/learner-record.png
+.. image:: https://github.com/overhangio/tutor-credentials/blob/release/doc/learner-record.png
     :alt: Learner Record MFE screenshot
 
 This plugin installs and enables the `Learner Record MFE <https://github.com/openedx/frontend-app-learner-record>`__ by default.  It contains views for a learners current status in a program, their current grade, and the ability to share any earned credentials either publically or with institutions.
@@ -112,4 +112,4 @@ This Tutor plugin is maintained by Muhammad Faraz Maqsood from `Edly <https://ed
 License
 -------
 
-This software is licensed under the terms of the `GNU Affero General Public License (AGPL) <https://github.com/overhangio/tutor-credentials/blob/master/LICENSE.txt>`_.
+This software is licensed under the terms of the `GNU Affero General Public License (AGPL) <https://github.com/overhangio/tutor-credentials/blob/release/LICENSE.txt>`_.

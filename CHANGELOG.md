@@ -19,6 +19,21 @@ instructions, because git commits are used to generate release notes:
 
 <!-- scriv-insert-here -->
 
+<a id='changelog-19.0.0'></a>
+## v19.0.0 (2024-10-23)
+
+- 💥 [Deprecation] Drop support for python 3.8 and set Python 3.9 as the minimum supported python version. (by @Faraz32123)
+- 💥[Improvement] Rename Tutor's two branches (by @DawoudSheraz):
+  * Rename **master** to **release**, as this branch runs the latest official Open edX release tag.
+  * Rename **nightly** to **main**, as this branch runs the Open edX master branches, which are the basis for the next Open edX release.
+- 💥[Feature] Upgrade to Sumac. (by @Faraz32123)
+- [BugFix] Uwsgi workers wasn't starting properly using `UWSGI_WORKERS` flag, passing the value directly fixes the issue. (by @Faraz32123)
+- 💥[Feature] Update Credentials Image to use Ubuntu `24.04` as base OS. (by @Faraz32123)
+  - Add `mime-support` alternatives that are `media-types mailcap`.
+  - Update `python-openssl` to `python3-openssl`.
+- [Bugfix] Fix legacy warnings during Docker build. (by @regisb)
+
+
 <a id='changelog-18.0.0'></a>
 ## v18.0.0 (2024-06-07)
 

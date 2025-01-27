@@ -5,9 +5,10 @@ import typing as t
 from glob import glob
 
 import importlib_resources
+from tutormfe.hooks import MFE_APPS, MFE_ATTRS_TYPE
+
 from tutor import hooks as tutor_hooks
 from tutor.__about__ import __version_suffix__
-from tutormfe.hooks import MFE_APPS, MFE_ATTRS_TYPE
 
 from .__about__ import __version__
 
@@ -68,7 +69,7 @@ tutor_hooks.Filters.CONFIG_OVERRIDES.add_items(
 
 @MFE_APPS.add()  # type: ignore
 def _add_learner_record_mfe(
-    apps: dict[str, MFE_ATTRS_TYPE]
+    apps: dict[str, MFE_ATTRS_TYPE],
 ) -> dict[str, MFE_ATTRS_TYPE]:
     apps.update(
         {

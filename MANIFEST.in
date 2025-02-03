@@ -1,2 +1,0 @@
-recursive-include tutorcredentials/patches *
-recursive-include tutorcredentials/templates *

@@ -3,9 +3,10 @@
 
 [project]
 name = "tutor-credentials"
-license = {file = "LICENSE.txt"}
+license = { text = "AGPL-3.0-only" }
 authors = [
-  {name = "Lawrence McDaniel", email = "lpm0073@gmail.com"},
+  {name = "Lawrence McDaniel"},
+  {email = "lpm0073@gmail.com"},
 ]
 maintainers = [
   {name = "Muhammad Faraz Maqsood", email = "faraz.maqsood@arbisoft.com"}

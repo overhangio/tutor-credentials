@@ -5,10 +5,9 @@ import typing as t
 from glob import glob
 
 import importlib_resources
-from tutormfe.hooks import MFE_APPS, MFE_ATTRS_TYPE
-
 from tutor import hooks as tutor_hooks
 from tutor.__about__ import __version_suffix__
+from tutormfe.hooks import MFE_APPS, MFE_ATTRS_TYPE
 
 from .__about__ import __version__
 
@@ -25,7 +24,7 @@ config: t.Dict[str, t.Dict[str, t.Any]] = {
     "defaults": {
         "VERSION": __version__,
         "BACKEND_SERVICE_EDX_OAUTH2_KEY": "{{ CREDENTIALS_OAUTH2_KEY }}",
-        "DOCKER_IMAGE": "{{ DOCKER_REGISTRY }}overhangio/openedx-credentials:{{ CREDENTIALS_VERSION }}",
+        "DOCKER_IMAGE": "{{ DOCKER_REGISTRY }}overhangio/openedx-credentials:{{ CREDENTIALS_VERSION }}",  # noqa: E501
         "EXTRA_PIP_REQUIREMENTS": [],
         "HOST": "credentials.{{ LMS_HOST }}",
         "MYSQL_DATABASE": "credentials",

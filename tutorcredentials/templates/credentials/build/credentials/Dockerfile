@@ -80,7 +80,9 @@ RUN --mount=type=cache,target=/openedx/.cache/pip,sharing=shared pip install \
     # Use redis as a django cache https://pypi.org/project/django-redis/
     django-redis==5.4.0 \
     # uwsgi server https://pypi.org/project/uWSGI/
-    uwsgi==2.0.30
+    uwsgi==2.0.30 \
+    # Temporarily install tzdata to avoid error mentioned in https://github.com/overhangio/tutor-credentials/issues/62
+    tzdata
 
 {{ patch("credentials-dockerfile-post-python-requirements") }}
 

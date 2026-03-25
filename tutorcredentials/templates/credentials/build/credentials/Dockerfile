@@ -48,6 +48,10 @@ RUN mkdir -p /openedx/credentials && \
     git clone $CREDENTIALS_REPOSITORY --branch $CREDENTIALS_VERSION --depth 1 /openedx/credentials
 WORKDIR /openedx/credentials
 
+# Identify tutor user to apply patches using git
+RUN git config --global user.email "tutor@overhang.io" \
+  && git config --global user.name "Tutor"
+
 {{ patch("credentials-dockerfile-post-git-checkout") }}
 
 ###### Install python requirements in virtualenv

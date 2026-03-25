@@ -52,6 +52,11 @@ WORKDIR /openedx/credentials
 RUN git config --global user.email "tutor@overhang.io" \
   && git config --global user.name "Tutor"
 
+## Use URL safe encoding for the status list
+RUN curl -fsSL https://github.com/openedx/credentials/commit/0b66761d681faf9e8df5f63c0e26334d93105aa0.patch | git am
+## Update obv3 achievement id format to urn compatible
+RUN curl -fsSL https://github.com/openedx/credentials/commit/8bc7969fab022625e600f5ba03c70ccda3ccf905.patch | git am
+
 {{ patch("credentials-dockerfile-post-git-checkout") }}
 
 ###### Install python requirements in virtualenv

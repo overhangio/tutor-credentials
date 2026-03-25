@@ -19,6 +19,17 @@ instructions, because git commits are used to generate release notes:
 
 <!-- scriv-insert-here -->
 
+<a id='changelog-21.0.1'></a>
+## v21.0.1 (2026-03-25)
+
+- [Chore] Remove unnecessary hatch definition for version. (by @mlabeeb03)
+
+- [BugFix] Fixed timezone error. (by @Faraz32123)
+
+- [BugFix] Add git configuration required for applying patches. (by @Faraz32123)
+
+- [BugFix] Add patches for fixes that updates Base64 encoding to the URL-safe format and credential UUID format to URN-compatible(https://github.com/openedx/credentials/issues/2956). (by @Faraz32123)
+
 <a id='changelog-21.0.0'></a>
 ## v21.0.0 (2025-10-01)
 

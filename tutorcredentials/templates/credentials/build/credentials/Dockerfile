@@ -56,6 +56,8 @@ RUN git config --global user.email "tutor@overhang.io" \
 RUN curl -fsSL https://github.com/openedx/credentials/commit/0b66761d681faf9e8df5f63c0e26334d93105aa0.patch | git am
 ## Update obv3 achievement id format to urn compatible
 RUN curl -fsSL https://github.com/openedx/credentials/commit/8bc7969fab022625e600f5ba03c70ccda3ccf905.patch | git am
+## Update didkit package to openedx fork
+RUN curl -fsSL https://github.com/openedx/credentials/commit/b157908f5fd7e7b0ed9cb7577bcebb404d625bff.patch | git am
 
 {{ patch("credentials-dockerfile-post-git-checkout") }}
 

@@ -1,0 +1,1 @@
+- [Bugfix] Add patch with the package update of vc (verifiable credentials) signining lib to openedx fork that is necessary for the vc sharing flow(https://github.com/openedx/credentials/issues/2956). (by @GlugovGrGlib)

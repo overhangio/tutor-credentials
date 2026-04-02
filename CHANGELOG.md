@@ -19,6 +19,11 @@ instructions, because git commits are used to generate release notes:
 
 <!-- scriv-insert-here -->
 
+<a id='changelog-21.0.2'></a>
+## v21.0.2 (2026-04-02)
+
+- [Bugfix] Add patch with the package update of vc (verifiable credentials) signining lib to openedx fork that is necessary for the vc sharing flow(https://github.com/openedx/credentials/issues/2956). (by @GlugovGrGlib)
+
 <a id='changelog-21.0.1'></a>
 ## v21.0.1 (2026-03-25)
 

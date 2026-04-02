@@ -24,6 +24,8 @@ instructions, because git commits are used to generate release notes:
 
 - [Bugfix] Add patch with the package update of vc (verifiable credentials) signining lib to openedx fork that is necessary for the vc sharing flow(https://github.com/openedx/credentials/issues/2956). (by @GlugovGrGlib)
 
+- [BugFix] Fix the patch to update didkit package in credentials that was added recently in Dockerfile, credentials build was failing as the commit patch was from master, not from release/ulmo branch. (by @Faraz32123)
+
 <a id='changelog-21.0.1'></a>
 ## v21.0.1 (2026-03-25)
 

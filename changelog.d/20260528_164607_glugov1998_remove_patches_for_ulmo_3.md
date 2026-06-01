@@ -1,1 +1,0 @@
-- [Bugfix] Remove patches for the VC flow that were already backported into release/ulmo.3. (by @GlugovGrGlib)

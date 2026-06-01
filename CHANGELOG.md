@@ -19,6 +19,11 @@ instructions, because git commits are used to generate release notes:
 
 <!-- scriv-insert-here -->
 
+<a id='changelog-21.0.3'></a>
+## v21.0.3 (2026-06-01)
+
+- [Bugfix] Remove patches for the VC flow that were already backported into release/ulmo.3. (by @GlugovGrGlib)
+
 <a id='changelog-21.0.2'></a>
 ## v21.0.2 (2026-04-02)
 

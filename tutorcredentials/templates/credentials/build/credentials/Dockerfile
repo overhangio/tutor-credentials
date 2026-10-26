@@ -10,7 +10,7 @@ RUN userdel -r ubuntu
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,target=/var/lib/apt,sharing=locked \
     apt update && \
-    apt install -y build-essential curl git language-pack-en gettext
+    apt install -y build-essential ca-certificates curl git language-pack-en gettext
 
 ENV LC_ALL=en_US.UTF-8
 {{ patch("credentials-dockerfile-minimal") }}
@@ -74,10 +74,14 @@ RUN --mount=type=cache,target=/openedx/.cache/pip,sharing=shared pip install \
     # https://pypi.org/project/setuptools/
     # https://pypi.org/project/pip/
     # https://pypi.org/project/wheel/
-    setuptools==80.9.0 pip==25.2 wheel==0.45.1
+    setuptools==80.9.0 pip==26.2.2 wheel==0.45.1
 
 # Install base requirements
 RUN --mount=type=cache,target=/openedx/.cache/pip,sharing=shared pip install -r requirements/production.txt
+
+# Upgrade certifi until the upstream requirements pin a version without the compromised emSign roots
+# https://emudhra.we-have-a-problem.com/
+RUN --mount=type=cache,target=/openedx/.cache/pip,sharing=shared pip install "certifi>=2026.10.19"
 
 # Install extra requirements
 RUN --mount=type=cache,target=/openedx/.cache/pip,sharing=shared pip install \
@@ -100,7 +104,7 @@ ENV PATH=/openedx/nodeenv/bin:/openedx/venv/bin:${PATH}
 # Install nodeenv with the version provided by credentials
 # https://github.com/ekalinin/nodeenv/releases
 RUN pip install nodeenv==1.8.0
-RUN nodeenv /openedx/nodeenv --node=16.14.2 --prebuilt
+RUN nodeenv /openedx/nodeenv --node=22.23.4 --prebuilt
 
 # Install nodejs requirements
 ARG NPM_REGISTRY='{{ NPM_REGISTRY }}'

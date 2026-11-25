@@ -85,9 +85,70 @@ def _add_learner_record_mfe(
 # INITIALIZATION TASKS
 ########################################
 
+# Create the credentials user and OAuth2 applications in the LMS
+tutor_hooks.Filters.OPENEDX_SERVICE_USERS.add_item(
+    {
+        "username": "credentials",
+        "staff": True,
+        "superuser": True,
+        "unusable_password": True,
+    }
+)
+tutor_hooks.Filters.OPENEDX_OAUTH2_APPLICATIONS.add_items(
+    [
+        # Development clients
+        {
+            "name": "credentials-dev",
+            "user": "credentials",
+            "grant_type": "client-credentials",
+            "redirect_uris": "http://{{ CREDENTIALS_HOST }}:8150/complete/edx-oauth2/",
+            "client_id": "{{ CREDENTIALS_OAUTH2_KEY_DEV }}",
+            "client_secret": "{{ CREDENTIALS_OAUTH2_SECRET }}",
+            "scopes": "user_id",
+            "skip_authorization": True,
+        },
+        {
+            "name": "credentials-sso-dev",
+            "user": "credentials",
+            "grant_type": "authorization-code",
+            "redirect_uris": "http://{{ CREDENTIALS_HOST }}:8150/complete/edx-oauth2/",
+            "client_id": "{{ CREDENTIALS_OAUTH2_KEY_SSO_DEV }}",
+            "client_secret": "{{ CREDENTIALS_OAUTH2_SECRET_SSO }}",
+            "scopes": "user_id",
+            "skip_authorization": True,
+        },
+        # Production clients
+        {
+            "name": "credentials",
+            "user": "credentials",
+            "grant_type": "client-credentials",
+            "redirect_uris": (
+                "{% if ENABLE_HTTPS %}https{% else %}http{% endif %}"
+                "://{{ CREDENTIALS_HOST }}/complete/edx-oauth2/"
+            ),
+            "client_id": "{{ CREDENTIALS_OAUTH2_KEY }}",
+            "client_secret": "{{ CREDENTIALS_OAUTH2_SECRET }}",
+            "scopes": "user_id",
+            "skip_authorization": True,
+        },
+        {
+            "name": "credentials-sso",
+            "user": "credentials",
+            "grant_type": "authorization-code",
+            "redirect_uris": (
+                "{% if ENABLE_HTTPS %}https{% else %}http{% endif %}"
+                "://{{ CREDENTIALS_HOST }}/complete/edx-oauth2/"
+            ),
+            "client_id": "{{ CREDENTIALS_OAUTH2_KEY_SSO }}",
+            "client_secret": "{{ CREDENTIALS_OAUTH2_SECRET_SSO }}",
+            "scopes": "user_id",
+            "skip_authorization": True,
+        },
+    ]
+)
+
 MY_INIT_TASKS = [
     ("mysql", "init"),
-    ("lms", "init"),
     ("credentials", "init"),
     ("mysql", "sync_users"),
 ]
